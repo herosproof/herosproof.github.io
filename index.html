@@ -166,6 +166,7 @@ button{font-family:inherit;cursor:pointer;}
 /* the portrait image itself */
 .vn-fig-img{
   display:block;height:100%;width:auto;max-width:46vw;
+  position:relative;z-index:1;
   object-fit:contain;object-position:bottom;
   --op:1;opacity:0;transition:opacity .45s ease;
   filter:drop-shadow(0 6px 24px rgba(0,0,0,.5));
@@ -178,7 +179,7 @@ button{font-family:inherit;cursor:pointer;}
    brightness(0) invert(1) turns the art into a pure-white silhouette,
    blurred and slightly enlarged into a halo. */
 .vn-fig-glow{
-  position:absolute;left:0;top:0;width:100%;height:100%;
+  position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;
   object-fit:contain;object-position:bottom;
   filter:brightness(0) invert(1) blur(6px);
   transform:scale(1.06);transform-origin:bottom center;
@@ -657,7 +658,7 @@ footer{
 
   <!-- ══════════════════════════ INTERACTIVE INTRO (VN ENGINE) ══════════════════════════ -->
   <section class="intro-scene-section" aria-label="Interactive intro">
-    <h2 class="section-heading">✨ Interactive Intro<span class="jp">インタラクティブ・イントロ</span></h2>
+    <h2 class="section-heading">✨ Story Intro<span class="jp">ストーリー・イントロ</span></h2>
 
     <div class="vn-stage" id="vn-stage">
       <img class="vn-bg" id="vn-bg" alt="" aria-hidden="true">
@@ -771,9 +772,10 @@ footer{
 
     <div class="speed-bar" id="speed-bar" role="group" aria-label="Playback speed / 再生スピード">
       <span class="speed-label">スピード:</span>
-      <button class="speed-btn" data-rate="0.5">0.5×<small>ゆっくり</small></button>
-      <button class="speed-btn" data-rate="0.75">0.75×<small>すこしゆっくり</small></button>
+      <button class="speed-btn" data-rate="0.75">0.75×<small>ゆっくり</small></button>
+      <button class="speed-btn" data-rate="0.9">0.9×<small>すこしゆっくり</small></button>
       <button class="speed-btn active" data-rate="1">1×<small>ふつう</small></button>
+      <button class="speed-btn" data-rate="1.25">1.25×<small>すこしはやい</small></button>
     </div>
   </section>
 
@@ -1023,30 +1025,30 @@ const VN_SCENES=[
     {en:'Can anyone hear me?',jp:'誰か聞こえますか？'},
     {en:'I need help!',jp:'助けて！'},
     {en:'My world is in danger!',jp:'私の世界が危ない！'}]},
-  {id:'s02',num:2,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',lines:[
+  {id:'s02',num:2,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'Hello!',jp:'こんにちは！'},
     {en:"I'm a mage from another world.",jp:'異世界の魔法使いです。'}]},
-  {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',fullbody:true,cornerPortrait:'lumi_troubled.png',lines:[
+  {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',fullbody:true,lines:[
     {en:'My name is Lumi.',jp:'私の名前はルミ。'}]},
-  {id:'s04',num:4,bg:'magic_communication_space.png',portrait:'lumi_tehepero.png',
+  {id:'s04',num:4,bg:'magic_communication_space.png',portrait:'lumi_tehepero.png',centered:true,
    bgSwap:{img:'lltw_reveal.png',delay:3000,sfx:'sparkle_chime'},lines:[
     {en:"Maybe you've seen me somewhere… maybe in a book?",jp:'もしかしたら、どこかで見たことがあるかも…本の中とか？'}]},
-  {id:'s05',num:5,bg:'magic_communication_space.png',portrait:'lumi_2.png',lines:[
+  {id:'s05',num:5,bg:'magic_communication_space.png',portrait:'lumi_2.png',centered:true,lines:[
     {en:"I've been studying magic really, really hard!",jp:'魔法をすごく頑張って勉強してきたんだ！'}]},
-  {id:'s06',num:6,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',lines:[
+  {id:'s06',num:6,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'But I made a big mistake during an experiment… Can you help me?',jp:'でも、実験で大きな失敗をしちゃって…助けてくれませんか？'}]},
-  {id:'s07',num:7,bg:'broken_world_bg.png',portrait:'lumi_troubled.png',lines:[
+  {id:'s07',num:7,bg:'broken_world_bg.png',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'Four cracks opened across my world!',jp:'世界中に四つのひびが開いてしまったの！',sfx:'crack_break'},
     {en:'Everyone is acting strange… Only heroes can fix this!',jp:'みんな様子がおかしくなってる…これを直せるのはヒーローだけなの！'}]},
-  {id:'s08',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',
+  {id:'s08',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',centered:true,
    choice:{yes:'s09',no:'s08b'},lines:[
     {en:'Will you help me?',jp:'私を助けてくれませんか？'}]},
-  {id:'s08b',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',
+  {id:'s08b',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',centered:true,
    choice:{yes:'s09',no:'s08b'},lines:[
     {en:'Will you PLEASE help me?',jp:'どうか、私を助けてくれませんか？'}]},
-  {id:'s09',num:9,bg:'magic_communication_space.png',portrait:'lumi_happy.png',lines:[
+  {id:'s09',num:9,bg:'magic_communication_space.png',portrait:'lumi_happy.png',centered:true,lines:[
     {en:'Thank you… thank you so much!',jp:'ありがとうございます…本当にありがとう！'}]},
-  {id:'s10',num:10,bg:'magic_communication_space.png',portrait:'lumi_neutral.png',lines:[
+  {id:'s10',num:10,bg:'magic_communication_space.png',portrait:'lumi_neutral.png',centered:true,lines:[
     {en:'Before I bring you here, I need to create an anchor!',jp:'こちらへ呼ぶ前に、まず「錨（いかり）」を作らないと！',sfx:'anchor_hum'}]},
   {id:'s11',num:11,bg:'summoning_circle_bg.png',lines:[
     {en:'Perfect! The magic circle is complete!',jp:'完璧！魔法陣が完成した！',sfx:'magic_circle_complete'}]},
