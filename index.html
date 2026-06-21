@@ -149,19 +149,34 @@ button{font-family:inherit;cursor:pointer;}
   background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(144,96,192,.18) 0%,transparent 70%);
   pointer-events:none;
 }
-/* character portrait — smaller, sits above the dialogue box,
-   shifted toward the right so it doesn't block the background art */
+/* character portrait — anchored to the dialogue box, NOT to a % of the
+   stage height. The box lives at bottom:3.5%, so matching that % and
+   adding a fixed pixel offset keeps her "weighted" to the box in every
+   mode (mobile, desktop, fullscreen) instead of floating or sinking. */
 .vn-portrait{
-  position:absolute;bottom:21%;left:74%;transform:translateX(-50%);
-  height:46%;max-width:36%;object-fit:contain;object-position:bottom;
+  position:absolute;left:74%;transform:translateX(-50%);
+  bottom:calc(3.5% + 84px);
+  height:clamp(150px,42%,360px);max-width:40%;
+  object-fit:contain;object-position:bottom;
   opacity:0;transition:opacity .4s ease;
   filter:drop-shadow(0 6px 24px rgba(0,0,0,.5));
   pointer-events:none;
 }
 .vn-portrait.show{opacity:1;}
+/* full-body reveal (scene 3) — centered, larger, feet resting just
+   above the dialogue box rather than tucked behind it */
+.vn-portrait.fullbody{
+  left:50%;
+  bottom:calc(3.5% + 118px);
+  height:clamp(240px,64%,540px);max-width:78%;
+}
+/* in fullscreen the dialogue box grows taller, so lift the full-body
+   reveal a little more to keep her feet above it */
+.vn-stage.big .vn-portrait.fullbody{bottom:calc(3.5% + 150px);}
 /* emoji stand-in while portrait art is missing */
 .vn-portrait-fallback{
-  position:absolute;bottom:30%;left:74%;transform:translateX(-50%);
+  position:absolute;left:74%;transform:translateX(-50%);
+  bottom:calc(3.5% + 120px);
   font-size:clamp(2.1rem,6.5vw,3.4rem);
   animation:lumiFloat 3s ease-in-out infinite;
   pointer-events:none;display:none;
@@ -937,7 +952,7 @@ const VN_SCENES=[
   {id:'s02',num:2,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',lines:[
     {en:'Hello!',jp:'こんにちは！'},
     {en:"I'm a mage from another world.",jp:'異世界の魔法使いです。'}]},
-  {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',lines:[
+  {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',fullbody:true,lines:[
     {en:'My name is Lumi.',jp:'私の名前はルミ。'}]},
   {id:'s04',num:4,bg:'magic_communication_space.png',portrait:'lumi_tehepero.png',
    bgSwap:{img:'lltw_reveal.png',delay:1000,sfx:'sparkle_chime'},lines:[
@@ -968,13 +983,13 @@ const VN_SCENES=[
   {id:'s15',num:15,white:true,center:'heroes.png',flashIn:true,flashSfx:'whoosh_transform',lines:[{en:'',jp:''}]},
   /* ── arrival ── */
   {id:'s17',num:17,bg:'broken_world_bg.png',portrait:'lumi.png',flashIn:true,flashSfx:'portal_open',lines:[
-    {en:'Welcome to my world! These are the four areas: Castle, Forest, Mountain, and Sky!',jp:'私の世界へようこそ！ここには「城」「森」「山」「空」の四つのエリアがあるの！'}]},
+    {en:'Welcome to my world! These are the four regions: Castle, Forest, Mountain, and Sky!',jp:'私の世界へようこそ！ここには「城」「森」「山」「空」の四つのエリアがあるの！'}]},
   {id:'s18',num:18,bg:'broken_world_bg.png',portrait:'lumi_neutral.png',lines:[
     {en:'To seal the cracks, I need five magic crystals.',jp:'ひびを封じるには、五つの魔法の水晶が必要なの。'}]},
   {id:'s19',num:19,bg:'broken_world_bg.png',portrait:'lumi.png',lines:[
     {en:'I already have the purple crystal!',jp:'紫の水晶はもう私が持ってる！'}]},
   {id:'s20',num:20,bg:'boss_silhouette.png',lines:[
-    {en:"You must find the other four. Each area's guardian protects one.",jp:'残りの四つを見つけて。各エリアの守護者が一つずつ守っているの！'}]},
+    {en:"You must find the other four. Each region's guardian protects one.",jp:'残りの四つを見つけて。各エリアの守護者が一つずつ守っているの！'}]},
   {id:'s21',num:21,bg:'npc_montage.png',portrait:'lumi_happy.png',lines:[
     {en:"You'll meet many people along the way.",jp:'旅の途中で、たくさんの人たちと出会うよ。'}]},
   {id:'s22',num:22,bg:'broken_world_bg.png',portrait:'lumi_laugh.png',fadeWhiteAfter:true,lines:[
@@ -1002,6 +1017,7 @@ const VN_SCENES=[
       steps.push({
         sceneId:sc.id,num:sc.num,bg:sc.bg,portrait:sc.portrait,
         white:!!sc.white,center:sc.center,zoom:!!sc.zoom,
+        fullbody:!!sc.fullbody,
         bgSwap:i===0?sc.bgSwap:null,
         flashIn:i===0&&!!sc.flashIn,
         flashSfx:i===0?sc.flashSfx:null,
@@ -1099,6 +1115,7 @@ const VN_SCENES=[
       centerWrap.classList.add('show');
     }else{centerWrap.classList.remove('show');}
     /* portrait */
+    portraitEl.classList.toggle('fullbody',!!step.fullbody);
     setImage(portraitEl,step.portrait?VN_PATH+'char/'+step.portrait:null,
       missing=>{fallbackEl.style.display=(missing&&step.portrait)?'block':'none';});
     if(!step.portrait)fallbackEl.style.display='none';
