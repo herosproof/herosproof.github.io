@@ -1098,6 +1098,25 @@ const VN_SCENES=[
     if(s.center)(new Image()).src=VN_PATH+'img/'+s.center;
     if(s.bgSwap)(new Image()).src=VN_PATH+'bg/'+s.bgSwap.img;
   }
+  /* Pin the portrait to the REAL top edge of the dialogue box, measured
+     live. This is the reliable fix: the box height changes a lot (long
+     text, JP on, fullscreen big font), and only measuring it gets the
+     placement right in every mode. Bust portraits tuck slightly behind
+     the box top; the full-body reveal rests just above it. */
+  function positionPortrait(){
+    if(!started)return;
+    const step=steps[idx];
+    if(!step||!step.portrait||step.white||dialog.classList.contains('hide')){
+      portraitEl.style.bottom='';return;
+    }
+    const sRect=stage.getBoundingClientRect();
+    const bRect=dialog.getBoundingClientRect();
+    if(!bRect.height)return;
+    const boxTopFromBottom=sRect.bottom-bRect.top;       // px from stage bottom up to box top
+    const fb=portraitEl.classList.contains('fullbody');
+    const offset=fb?14:-34;                              // fb: feet above box · bust: tuck behind
+    portraitEl.style.bottom=Math.max(8,boxTopFromBottom+offset)+'px';
+  }
   function render(i){
     const step=steps[i];
     counterEl.textContent='SCENE '+step.num+' / '+TOTAL_SCENES;
@@ -1138,6 +1157,10 @@ const VN_SCENES=[
     nameEl.textContent='Lumi';
     jpEl.textContent=step.jp||'';
     jpEl.classList.toggle('hidden',!jpOn||!step.jp);
+    /* set the full line first and measure the box at its FINAL height,
+       so the portrait is pinned correctly before the typewriter runs */
+    enEl.textContent=step.en||'';
+    positionPortrait();
     typeText(step.en);
     playVoices(step);
     /* nav state */
@@ -1253,8 +1276,8 @@ const VN_SCENES=[
   fwdBtn.addEventListener('click',e=>{e.stopPropagation();advance();});
 
   /* fullscreen with theater-mode fallback (e.g. iPhones) */
-  function theaterOn(){stage.classList.add('theater','big');document.body.classList.add('no-scroll');}
-  function theaterOff(){stage.classList.remove('theater','big');document.body.classList.remove('no-scroll');}
+  function theaterOn(){stage.classList.add('theater','big');document.body.classList.add('no-scroll');setTimeout(positionPortrait,60);}
+  function theaterOff(){stage.classList.remove('theater','big');document.body.classList.remove('no-scroll');setTimeout(positionPortrait,60);}
   function toggleFS(){
     if(document.fullscreenElement===stage){document.exitFullscreen().catch(()=>{});}
     else if(stage.classList.contains('theater')){theaterOff();}
@@ -1264,6 +1287,13 @@ const VN_SCENES=[
   $('vn-fs').addEventListener('click',e=>{e.stopPropagation();toggleFS();});
   document.addEventListener('fullscreenchange',()=>{
     stage.classList.toggle('big',document.fullscreenElement===stage||stage.classList.contains('theater'));
+    setTimeout(positionPortrait,60);
+  });
+  /* keep the portrait pinned when the viewport changes (rotate/resize) */
+  let resizeRaf=null;
+  window.addEventListener('resize',()=>{
+    cancelAnimationFrame(resizeRaf);
+    resizeRaf=requestAnimationFrame(positionPortrait);
   });
 
   /* start / restart / end */
@@ -1286,6 +1316,7 @@ const VN_SCENES=[
     if(started&&idx>=0){
       const step=steps[idx];
       jpEl.classList.toggle('hidden',!jpOn||!step.jp);
+      positionPortrait();
     }
   });
 })();
