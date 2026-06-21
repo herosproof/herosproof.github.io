@@ -149,48 +149,44 @@ button{font-family:inherit;cursor:pointer;}
   background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(144,96,192,.18) 0%,transparent 70%);
   pointer-events:none;
 }
-/* character portrait — anchored to the dialogue box (positioned live in JS).
-   --op lets the apparition style fade in to 50% instead of 100%. */
-.vn-portrait{
+/* character portrait figures — a positioned wrapper holds a separate
+   white-glow layer behind the portrait, so the glow can be strong (~80%)
+   while Lumi herself is translucent (50%). Wrapper is pinned to the
+   dialogue box live in JS. */
+.vn-fig{
   position:absolute;left:74%;transform:translateX(-50%);
   bottom:calc(3.5% + 100px);
-  height:clamp(150px,42%,360px);max-width:40%;
+  height:clamp(150px,42%,360px);
+  pointer-events:none;
+}
+.vn-fig.centered,.vn-fig.fullbody{left:50%;}
+.vn-fig.fullbody{height:clamp(240px,64%,540px);bottom:calc(3.5% + 128px);}
+.vn-stage.big .vn-fig.fullbody{bottom:calc(3.5% + 150px);}
+.vn-fig-corner{left:84%;height:clamp(120px,30%,260px);}
+/* the portrait image itself */
+.vn-fig-img{
+  display:block;height:100%;width:auto;max-width:46vw;
   object-fit:contain;object-position:bottom;
   --op:1;opacity:0;transition:opacity .45s ease;
   filter:drop-shadow(0 6px 24px rgba(0,0,0,.5));
-  pointer-events:none;
 }
-.vn-portrait.show{opacity:var(--op);}
-/* front-and-centre bust (e.g. scene 1 distress call) */
-.vn-portrait.centered{left:50%;}
-/* full-body reveal (scene 3) — centered, larger, feet just above the box */
-.vn-portrait.fullbody{
-  left:50%;
-  bottom:calc(3.5% + 128px);
-  height:clamp(240px,64%,540px);max-width:78%;
-}
-.vn-stage.big .vn-portrait.fullbody{bottom:calc(3.5% + 150px);}
-/* apparition — ghostly white glow + half opacity (Lumi before she pulls
-   the heroes through, scenes 1–12) */
-.vn-portrait.apparition{
-  --op:.5;
-  filter:drop-shadow(0 0 9px rgba(255,255,255,.95)) drop-shadow(0 0 26px rgba(210,195,255,.65));
-}
-/* solid glow — white glow but fully opaque (scene 3 full-body reveal) */
-.vn-portrait.glow{
-  filter:drop-shadow(0 0 10px rgba(255,255,255,.95)) drop-shadow(0 0 30px rgba(225,215,255,.7));
-}
-/* second portrait shown in the corner alongside the full-body reveal */
-.vn-portrait-corner{
-  position:absolute;left:84%;transform:translateX(-50%);
-  bottom:calc(3.5% + 100px);
-  height:clamp(120px,30%,260px);max-width:32%;
+.vn-fig.fullbody .vn-fig-img{max-width:82vw;}
+.vn-fig-corner .vn-fig-img{max-width:34vw;}
+.vn-fig-img.show{opacity:var(--op);}
+.vn-fig-img.apparition{--op:.5;}
+/* white glow layer, sized to the wrapper, sitting BEHIND the portrait.
+   brightness(0) invert(1) turns the art into a pure-white silhouette,
+   blurred and slightly enlarged into a halo. */
+.vn-fig-glow{
+  position:absolute;left:0;top:0;width:100%;height:100%;
   object-fit:contain;object-position:bottom;
+  filter:brightness(0) invert(1) blur(6px);
+  transform:scale(1.06);transform-origin:bottom center;
   opacity:0;transition:opacity .45s ease;
-  filter:drop-shadow(0 0 9px rgba(255,255,255,.95)) drop-shadow(0 0 24px rgba(210,195,255,.65));
-  pointer-events:none;
 }
-.vn-portrait-corner.show{opacity:.5;}
+.vn-fig-glow.show{opacity:.8;}
+/* when the glow layer is active, drop the dark shadow on the portrait */
+.vn-fig.glowing .vn-fig-img{filter:none;}
 /* emoji stand-in while portrait art is missing */
 .vn-portrait-fallback{
   position:absolute;left:74%;transform:translateX(-50%);
@@ -242,6 +238,7 @@ button{font-family:inherit;cursor:pointer;}
   color:var(--purple-light);line-height:1.7;margin-top:5px;
 }
 .vn-jp.hidden{display:none;}
+.vn-en.hidden{display:none;}
 .vn-tap{
   position:absolute;bottom:8px;right:14px;
   color:var(--gold-light);font-size:.85rem;
@@ -291,6 +288,32 @@ button{font-family:inherit;cursor:pointer;}
 .vn-btn:hover{background:rgba(74,56,112,.9);}
 .vn-btn:active{transform:scale(.95);}
 .vn-btn.on{background:var(--purple);border-color:var(--gold-light);color:#fff;}
+/* settings popover */
+.vn-settings{
+  position:absolute;top:48px;right:10px;z-index:9;
+  width:min(260px,82vw);
+  background:rgba(20,12,38,.96);
+  border:1px solid rgba(201,160,48,.5);border-radius:14px;
+  padding:14px;display:flex;flex-direction:column;gap:12px;
+  box-shadow:0 12px 36px rgba(0,0,0,.55);
+  backdrop-filter:blur(4px);
+}
+.vn-settings[hidden]{display:none;}
+.vn-set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.vn-set-label{font-size:.72rem;color:var(--gold-pale);font-weight:600;white-space:nowrap;}
+.vn-seg{
+  background:rgba(74,56,112,.6);border:1px solid rgba(201,160,48,.4);
+  color:#fff;border-radius:9px;padding:5px 10px;font-size:.7rem;font-weight:700;
+  min-width:96px;text-align:center;transition:background .15s;
+}
+.vn-seg:active{transform:scale(.96);}
+.vn-range{flex:1;accent-color:var(--purple);height:4px;}
+.vn-speed{display:flex;gap:4px;}
+.vn-speed button{
+  background:rgba(74,56,112,.55);border:1px solid rgba(201,160,48,.35);
+  color:var(--gold-pale);border-radius:7px;padding:4px 7px;font-size:.66rem;font-weight:600;
+}
+.vn-speed button.on{background:var(--purple);border-color:var(--gold-light);color:#fff;}
 .vn-counter{
   position:absolute;top:14px;left:14px;z-index:7;
   font-family:'Press Start 2P',monospace;
@@ -639,15 +662,46 @@ footer{
     <div class="vn-stage" id="vn-stage">
       <img class="vn-bg" id="vn-bg" alt="" aria-hidden="true">
       <div class="vn-center" id="vn-center"><img id="vn-center-img" alt="" aria-hidden="true"></div>
-      <img class="vn-portrait" id="vn-portrait" alt="" aria-hidden="true">
-      <img class="vn-portrait-corner" id="vn-portrait-corner" alt="" aria-hidden="true">
+      <div class="vn-fig" id="vn-portrait-wrap">
+        <img class="vn-fig-glow" id="vn-portrait-glow" alt="" aria-hidden="true">
+        <img class="vn-fig-img vn-portrait" id="vn-portrait" alt="" aria-hidden="true">
+      </div>
+      <div class="vn-fig vn-fig-corner" id="vn-portrait-corner-wrap">
+        <img class="vn-fig-glow" id="vn-portrait-corner-glow" alt="" aria-hidden="true">
+        <img class="vn-fig-img" id="vn-portrait-corner" alt="" aria-hidden="true">
+      </div>
       <span class="vn-portrait-fallback" id="vn-portrait-fallback">💜</span>
 
       <span class="vn-counter" id="vn-counter"></span>
       <div class="vn-controls">
-        <button class="vn-btn" id="vn-jp-toggle" aria-pressed="false" title="Toggle Japanese text and voice">あ 日本語 OFF</button>
+        <button class="vn-btn" id="vn-voice-toggle" title="Voice language / 音声">🔊 EN</button>
+        <button class="vn-btn" id="vn-text-toggle" title="Text language / 字幕">💬 EN</button>
+        <button class="vn-btn" id="vn-settings-btn" title="Settings / 設定">⚙</button>
         <button class="vn-btn" id="vn-restart" title="Restart / はじめから">↺</button>
         <button class="vn-btn" id="vn-fs" title="Fullscreen / 全画面">⛶</button>
+      </div>
+      <div class="vn-settings" id="vn-settings" hidden>
+        <div class="vn-set-row">
+          <span class="vn-set-label">🔊 Voice 音声</span>
+          <button class="vn-seg" id="vn-set-voice" data-mode="en">English</button>
+        </div>
+        <div class="vn-set-row">
+          <span class="vn-set-label">💬 Text 字幕</span>
+          <button class="vn-seg" id="vn-set-text" data-mode="en">English</button>
+        </div>
+        <div class="vn-set-row">
+          <span class="vn-set-label">🔈 Volume 音量</span>
+          <input type="range" id="vn-set-vol" min="0" max="100" value="90" class="vn-range">
+        </div>
+        <div class="vn-set-row">
+          <span class="vn-set-label">⏩ Speed 速さ</span>
+          <div class="vn-speed" id="vn-set-speed">
+            <button data-rate="0.75">0.75×</button>
+            <button data-rate="0.9">0.9×</button>
+            <button data-rate="1" class="on">1×</button>
+            <button data-rate="1.25">1.25×</button>
+          </div>
+        </div>
       </div>
 
       <button class="vn-nav vn-prev off" id="vn-prev" aria-label="Previous / 前へ">‹</button>
@@ -975,7 +1029,7 @@ const VN_SCENES=[
   {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',fullbody:true,cornerPortrait:'lumi_troubled.png',lines:[
     {en:'My name is Lumi.',jp:'私の名前はルミ。'}]},
   {id:'s04',num:4,bg:'magic_communication_space.png',portrait:'lumi_tehepero.png',
-   bgSwap:{img:'lltw_reveal.png',delay:1000,sfx:'sparkle_chime'},lines:[
+   bgSwap:{img:'lltw_reveal.png',delay:3000,sfx:'sparkle_chime'},lines:[
     {en:"Maybe you've seen me somewhere… maybe in a book?",jp:'もしかしたら、どこかで見たことがあるかも…本の中とか？'}]},
   {id:'s05',num:5,bg:'magic_communication_space.png',portrait:'lumi_2.png',lines:[
     {en:"I've been studying magic really, really hard!",jp:'魔法をすごく頑張って勉強してきたんだ！'}]},
@@ -1020,14 +1074,23 @@ const VN_SCENES=[
 (function(){
   const $=id=>document.getElementById(id);
   const stage=$('vn-stage'),overlay=$('vn-overlay'),endPanel=$('vn-end');
-  const bgEl=$('vn-bg'),portraitEl=$('vn-portrait'),fallbackEl=$('vn-portrait-fallback'),cornerEl=$('vn-portrait-corner');
+  const bgEl=$('vn-bg'),fallbackEl=$('vn-portrait-fallback');
+  const wrapEl=$('vn-portrait-wrap'),portraitEl=$('vn-portrait'),glowEl=$('vn-portrait-glow');
+  const cornerWrapEl=$('vn-portrait-corner-wrap'),cornerEl=$('vn-portrait-corner'),cornerGlowEl=$('vn-portrait-corner-glow');
   const centerWrap=$('vn-center'),centerImg=$('vn-center-img');
   const dialog=$('vn-dialog'),nameEl=$('vn-name'),enEl=$('vn-en'),jpEl=$('vn-jp'),tapEl=$('vn-tap');
-  const counterEl=$('vn-counter'),jpToggle=$('vn-jp-toggle');
+  const counterEl=$('vn-counter');
   const choiceEl=$('vn-choice'),flashEl=$('vn-flash'),blackEl=$('vn-black');
   const prevBtn=$('vn-prev'),fwdBtn=$('vn-fwd');
   const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const TOTAL_SCENES=22;
+
+  /* ── settings: separate voice & text language, volume, speed ──
+     modes cycle: 'en' → 'both' → 'jp'. Defaults to English-only. */
+  const MODES=['en','both','jp'];
+  const MODE_LABEL={en:'English',both:'EN + 日本語',jp:'日本語'};
+  const MODE_SHORT={en:'EN',both:'EN+JP',jp:'JP'};
+  let voiceMode='en',textMode='en',volume=0.9,speed=1;
 
   /* flatten scenes into linear steps */
   const steps=[],sceneStart={};
@@ -1052,7 +1115,7 @@ const VN_SCENES=[
   });
 
   let idx=-1,typing=false,typeTimer=null,bgSwapTimer=null;
-  let jpOn=false,started=false,busy=false,choiceOpen=false;
+  let started=false,busy=false,choiceOpen=false;
   let audioEn=null,audioJp=null;
   const history=[];
 
@@ -1066,29 +1129,33 @@ const VN_SCENES=[
     if(!name)return;
     try{
       const a=new Audio(VN_PATH+'sfx/'+name+'.mp3');
-      a.volume=vol!=null?vol:0.55;
+      a.volume=Math.max(0,Math.min(1,(vol!=null?vol:0.55)*volume));
       a.play().catch(()=>{});
     }catch(e){}
   }
+  function makeVoice(lang,key){
+    const a=new Audio(VN_PATH+'voice/'+lang+'/'+key+'.mp3');
+    a.volume=volume;a.playbackRate=speed;
+    a.onerror=()=>{};
+    return a;
+  }
+  /* play voice(s) per voiceMode: en | both (EN then JP) | jp */
   function playVoices(step){
     stopAudio();
     if(!step.en&&!step.jp)return;
-    audioEn=new Audio(VN_PATH+'voice/en/'+step.voiceKey+'.mp3');
-    audioEn.onerror=()=>{audioEn=null;};
-    if(jpOn){
-      audioEn.onended=()=>{
-        audioJp=new Audio(VN_PATH+'voice/jp/'+step.voiceKey+'.mp3');
-        audioJp.onerror=()=>{audioJp=null;};
-        audioJp.play().catch(()=>{});
-      };
+    const key=step.voiceKey;
+    if(voiceMode==='jp'){
+      audioJp=makeVoice('jp',key);
+      audioJp.play().catch(()=>{});
+      return;
+    }
+    audioEn=makeVoice('en',key);
+    if(voiceMode==='both'){
+      audioEn.onended=()=>{audioJp=makeVoice('jp',key);audioJp.play().catch(()=>{});};
     }
     audioEn.play().catch(()=>{
-      /* EN file missing — try JP alone if toggled on */
-      if(jpOn){
-        audioJp=new Audio(VN_PATH+'voice/jp/'+step.voiceKey+'.mp3');
-        audioJp.onerror=()=>{audioJp=null;};
-        audioJp.play().catch(()=>{});
-      }
+      /* EN missing — fall back to JP if we were going to play it */
+      if(voiceMode==='both'){audioJp=makeVoice('jp',key);audioJp.play().catch(()=>{});}
     });
   }
   function setImage(el,src,onMissing){
@@ -1130,19 +1197,19 @@ const VN_SCENES=[
     const bRect=dialog.getBoundingClientRect();
     const haveBox=bRect.height>0&&!dialog.classList.contains('hide');
     const boxTopFromBottom=haveBox?(sRect.bottom-bRect.top):0;
-    /* main portrait */
+    /* main portrait wrapper */
     if(!step||!step.portrait||step.white||!haveBox){
-      portraitEl.style.bottom='';
+      wrapEl.style.bottom='';
     }else{
-      const fb=portraitEl.classList.contains('fullbody');
+      const fb=wrapEl.classList.contains('fullbody');
       const offset=fb?18:-18;                            // fb: feet above box · bust: small tuck (nudged higher)
-      portraitEl.style.bottom=Math.max(8,boxTopFromBottom+offset)+'px';
+      wrapEl.style.bottom=Math.max(8,boxTopFromBottom+offset)+'px';
     }
-    /* corner portrait (e.g. troubled bust during the full-body reveal) */
+    /* corner portrait wrapper (troubled bust during the full-body reveal) */
     if(step&&step.cornerPortrait&&haveBox){
-      cornerEl.style.bottom=Math.max(8,boxTopFromBottom-18)+'px';
+      cornerWrapEl.style.bottom=Math.max(8,boxTopFromBottom-18)+'px';
     }else{
-      cornerEl.style.bottom='';
+      cornerWrapEl.style.bottom='';
     }
   }
   function render(i){
@@ -1161,21 +1228,26 @@ const VN_SCENES=[
       });
       centerWrap.classList.add('show');
     }else{centerWrap.classList.remove('show');}
-    /* portrait — placement (centered / full-body) + style.
-       Apparition (ghostly glow + 50% opacity) for every portrait up to
-       scene 12, when Lumi is still just a projection from her world.
-       Scene 3's full-body reveal keeps the glow but stays fully solid.
-       From scene 17 on (after the transport) she's normal/solid. */
-    portraitEl.classList.remove('fullbody','centered','apparition','glow');
-    if(step.fullbody)portraitEl.classList.add('fullbody');
-    if(step.centered)portraitEl.classList.add('centered');
-    if(step.fullbody)portraitEl.classList.add('glow');            // reveal: glow, opaque
-    else if(step.num<=12)portraitEl.classList.add('apparition');  // before transport: apparition
+    /* portrait — placement (centered / full-body) on the wrapper, style on
+       the image. A separate white-glow layer sits behind for scenes 1–12
+       (apparition: glow + 50% Lumi) and the scene-3 reveal (glow + solid).
+       From scene 17 on (after the transport) she's normal/solid, no glow. */
+    const wantGlow=!!step.portrait&&(step.fullbody||step.num<=12);
+    const apparition=wantGlow&&!step.fullbody;
+    wrapEl.classList.toggle('fullbody',!!step.fullbody);
+    wrapEl.classList.toggle('centered',!!step.centered);
+    wrapEl.classList.toggle('glowing',wantGlow);
+    portraitEl.classList.toggle('apparition',apparition);
     setImage(portraitEl,step.portrait?VN_PATH+'char/'+step.portrait:null,
       missing=>{fallbackEl.style.display=(missing&&step.portrait)?'block':'none';});
+    setImage(glowEl,(wantGlow&&step.portrait)?VN_PATH+'char/'+step.portrait:null);
     if(!step.portrait)fallbackEl.style.display='none';
     /* corner portrait (troubled apparition shown beside the reveal) */
-    setImage(cornerEl,step.cornerPortrait?VN_PATH+'char/'+step.cornerPortrait:null);
+    const cp=step.cornerPortrait?VN_PATH+'char/'+step.cornerPortrait:null;
+    cornerWrapEl.classList.toggle('glowing',!!cp);
+    cornerEl.classList.toggle('apparition',!!cp);
+    setImage(cornerEl,cp);
+    setImage(cornerGlowEl,cp);
     /* temporary background swap (e.g. Lumi's picture-book reveal) —
        after a short delay, crossfade the bg to a new image. It reverts
        naturally because the next scene sets its own bg when you advance,
@@ -1194,12 +1266,13 @@ const VN_SCENES=[
     dialog.classList.toggle('hide',!hasText);
     nameEl.textContent='Lumi';
     jpEl.textContent=step.jp||'';
-    jpEl.classList.toggle('hidden',!jpOn||!step.jp);
+    enEl.classList.toggle('hidden',textMode==='jp'||!step.en);
+    jpEl.classList.toggle('hidden',textMode==='en'||!step.jp);
     /* set the full line first and measure the box at its FINAL height,
        so the portrait is pinned correctly before the typewriter runs */
     enEl.textContent=step.en||'';
     positionPortrait();
-    typeText(step.en);
+    typeText(textMode==='jp'?'':step.en);
     playVoices(step);
     /* nav state */
     prevBtn.classList.toggle('off',history.length===0);
@@ -1239,7 +1312,6 @@ const VN_SCENES=[
       clearInterval(typeTimer);typing=false;
       enEl.textContent=step.en;
       tapEl.classList.add('show');
-      playSfx('soft_pop',0.4);
       return;
     }
     if(step.choiceAfter){
@@ -1250,13 +1322,11 @@ const VN_SCENES=[
     if(step.endAfter){finishIntro();return;}
     const next=idx+1;
     if(next>=steps.length){finishIntro();return;}
-    playSfx('soft_pop',0.4);
     if(steps[next].flashIn){flashTo(()=>goTo(next,true),steps[next].flashSfx);}
     else goTo(next,true);
   }
   function back(){
     if(!started||busy)return;
-    playSfx('soft_pop',0.3);
     if(choiceOpen){choiceOpen=false;choiceEl.classList.remove('show');return;}
     if(endPanel.classList.contains('show')){endPanel.classList.remove('show');render(idx);return;}
     if(history.length===0)return;
@@ -1278,21 +1348,19 @@ const VN_SCENES=[
   /* choice buttons */
   $('vn-yes').addEventListener('click',()=>{
     if(busy)return;
-    playSfx('soft_pop',0.45);
     choiceEl.classList.remove('show');choiceOpen=false;
     history.push(idx);
     goTo(sceneStart['s09'],false);
   });
   $('vn-no').addEventListener('click',()=>{
     if(busy)return;
-    playSfx('soft_pop',0.45);
     choiceEl.classList.remove('show');choiceOpen=false;
     blackTo(()=>{history.push(idx);goTo(sceneStart['s08b'],false);});
   });
 
   /* stage tap = advance (ignore taps on buttons/controls) */
   stage.addEventListener('click',e=>{
-    if(e.target.closest('button')||e.target.closest('.vn-choice')||e.target.closest('.vn-end')||e.target.closest('.vn-overlay'))return;
+    if(e.target.closest('button')||e.target.closest('.vn-choice')||e.target.closest('.vn-end')||e.target.closest('.vn-overlay')||e.target.closest('.vn-settings'))return;
     advance();
   });
   dialog.addEventListener('keydown',e=>{
@@ -1344,19 +1412,70 @@ const VN_SCENES=[
     document.querySelector('.portals-section').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
   });
 
-  /* JP toggle */
-  jpToggle.addEventListener('click',e=>{
-    e.stopPropagation();
-    jpOn=!jpOn;
-    jpToggle.classList.toggle('on',jpOn);
-    jpToggle.setAttribute('aria-pressed',String(jpOn));
-    jpToggle.textContent=jpOn?'あ 日本語 ON':'あ 日本語 OFF';
+  /* ── settings: voice & text language, volume, speed ── */
+  const voiceBtn=$('vn-voice-toggle'),textBtn=$('vn-text-toggle');
+  const settingsBtn=$('vn-settings-btn'),settingsPanel=$('vn-settings');
+  const segVoice=$('vn-set-voice'),segText=$('vn-set-text');
+  const volSlider=$('vn-set-vol'),speedWrap=$('vn-set-speed');
+
+  function refreshLangUI(){
+    voiceBtn.textContent='🔊 '+MODE_SHORT[voiceMode];
+    textBtn.textContent='💬 '+MODE_SHORT[textMode];
+    voiceBtn.classList.toggle('on',voiceMode!=='en');
+    textBtn.classList.toggle('on',textMode!=='en');
+    segVoice.textContent=MODE_LABEL[voiceMode];
+    segText.textContent=MODE_LABEL[textMode];
+  }
+  function applyTextMode(){
     if(started&&idx>=0){
       const step=steps[idx];
-      jpEl.classList.toggle('hidden',!jpOn||!step.jp);
+      enEl.classList.toggle('hidden',textMode==='jp'||!step.en);
+      jpEl.classList.toggle('hidden',textMode==='en'||!step.jp);
+      /* if EN just became visible and isn't typed yet, fill it */
+      if(textMode!=='jp'&&step.en&&!enEl.textContent)enEl.textContent=step.en;
+      if(textMode==='jp')enEl.textContent='';
       positionPortrait();
     }
+  }
+  function cycleMode(which){
+    if(which==='voice')voiceMode=MODES[(MODES.indexOf(voiceMode)+1)%3];
+    else textMode=MODES[(MODES.indexOf(textMode)+1)%3];
+    refreshLangUI();
+    if(which==='text')applyTextMode();
+  }
+  voiceBtn.addEventListener('click',e=>{e.stopPropagation();cycleMode('voice');});
+  textBtn.addEventListener('click',e=>{e.stopPropagation();cycleMode('text');});
+  segVoice.addEventListener('click',e=>{e.stopPropagation();cycleMode('voice');});
+  segText.addEventListener('click',e=>{e.stopPropagation();cycleMode('text');});
+
+  settingsBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    settingsPanel.hidden=!settingsPanel.hidden;
+    settingsBtn.classList.toggle('on',!settingsPanel.hidden);
   });
+  settingsPanel.addEventListener('click',e=>e.stopPropagation());
+  /* tapping the stage closes the settings panel (and doesn't advance) */
+  stage.addEventListener('pointerdown',e=>{
+    if(settingsPanel.hidden)return;
+    if(e.target.closest('#vn-settings')||e.target.closest('#vn-settings-btn'))return;
+    settingsPanel.hidden=true;settingsBtn.classList.remove('on');
+  },true);
+
+  volSlider.addEventListener('input',()=>{
+    volume=(+volSlider.value)/100;
+    if(audioEn)audioEn.volume=volume;
+    if(audioJp)audioJp.volume=volume;
+  });
+  speedWrap.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    e.stopPropagation();
+    speed=+b.dataset.rate;
+    [...speedWrap.children].forEach(c=>c.classList.toggle('on',c===b));
+    if(audioEn)audioEn.playbackRate=speed;
+    if(audioJp)audioJp.playbackRate=speed;
+  });
+
+  refreshLangUI();
 })();
 
 /* ─────────────────────────────────────────────
