@@ -981,7 +981,7 @@ footer{
    ASSET FOLDER LAYOUT (in your GitHub repo):
 
    assets/intro/bg/     backgrounds, including temporary bg-swaps
-                        (classroom_bg.png, lltw_reveal.png, ...)
+                        (classroom_bg.jpg, lltw_reveal.jpg, ...)
    assets/intro/char/   Lumi portraits (lumi.png, lumi_troubled.png, ...)
    assets/intro/img/    cut-in images for the white transformation
                         scenes (student_heroes.png, heroes.png)
@@ -990,7 +990,7 @@ footer{
    assets/intro/sfx/        short sound effects (see SFX list below)
 
    bgSwap: scene 4 starts on its normal background, then after a
-   delay crossfades to lltw_reveal.png (Lumi's picture-book moment).
+   delay crossfades to lltw_reveal.jpg (Lumi's picture-book moment).
    It reverts automatically once you advance, because the next scene
    sets its own bg — no manual reset needed.
 
@@ -1020,55 +1020,55 @@ footer{
 ═════════════════════════════════════════════ */
 const VN_PATH='assets/intro/';
 const VN_SCENES=[
-  {id:'s01',num:1,bg:'classroom_bg.png',zoom:true,portrait:'lumi_pleading.png',centered:true,lines:[
+  {id:'s01',num:1,bg:'classroom_bg.jpg',zoom:true,portrait:'lumi_pleading.png',centered:true,lines:[
     {en:'Hey…',jp:'ねえ…'},
     {en:'Can anyone hear me?',jp:'誰か聞こえますか？'},
     {en:'I need help!',jp:'助けて！'},
     {en:'My world is in danger!',jp:'私の世界が危ない！'}]},
-  {id:'s02',num:2,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',centered:true,lines:[
+  {id:'s02',num:2,bg:'magic_communication_space.jpg',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'Hello!',jp:'こんにちは！'},
     {en:"I'm a mage from another world.",jp:'異世界の魔法使いです。'}]},
-  {id:'s03',num:3,bg:'magic_communication_space.png',portrait:'lumi_full.png',fullbody:true,lines:[
+  {id:'s03',num:3,bg:'magic_communication_space.jpg',portrait:'lumi_full.png',fullbody:true,lines:[
     {en:'My name is Lumi.',jp:'私の名前はルミ。'}]},
-  {id:'s04',num:4,bg:'magic_communication_space.png',portrait:'lumi_tehepero.png',centered:true,
-   bgSwap:{img:'lltw_reveal.png',delay:3000,sfx:'sparkle_chime'},lines:[
+  {id:'s04',num:4,bg:'magic_communication_space.jpg',portrait:'lumi_tehepero.png',centered:true,
+   bgSwap:{img:'lltw_reveal.jpg',delay:3000,sfx:'sparkle_chime'},lines:[
     {en:"Maybe you've seen me somewhere… maybe in a book?",jp:'もしかしたら、どこかで見たことがあるかも…本の中とか？'}]},
-  {id:'s05',num:5,bg:'magic_communication_space.png',portrait:'lumi_2.png',centered:true,lines:[
+  {id:'s05',num:5,bg:'magic_communication_space.jpg',portrait:'lumi_2.png',centered:true,lines:[
     {en:"I've been studying magic really, really hard!",jp:'魔法をすごく頑張って勉強してきたんだ！'}]},
-  {id:'s06',num:6,bg:'magic_communication_space.png',portrait:'lumi_troubled.png',centered:true,lines:[
+  {id:'s06',num:6,bg:'magic_communication_space.jpg',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'But I made a big mistake during an experiment… Can you help me?',jp:'でも、実験で大きな失敗をしちゃって…助けてくれませんか？'}]},
-  {id:'s07',num:7,bg:'broken_world_bg.png',portrait:'lumi_troubled.png',centered:true,lines:[
+  {id:'s07',num:7,bg:'broken_world_bg.jpg',portrait:'lumi_troubled.png',centered:true,lines:[
     {en:'Four cracks opened across my world!',jp:'世界中に四つのひびが開いてしまったの！',sfx:'crack_break'},
     {en:'Everyone is acting strange… Only heroes can fix this!',jp:'みんな様子がおかしくなってる…これを直せるのはヒーローだけなの！'}]},
-  {id:'s08',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',centered:true,
+  {id:'s08',num:8,bg:'magic_communication_space.jpg',portrait:'lumi_pleading.png',centered:true,
    choice:{yes:'s09',no:'s08b'},lines:[
     {en:'Will you help me?',jp:'私を助けてくれませんか？'}]},
-  {id:'s08b',num:8,bg:'magic_communication_space.png',portrait:'lumi_pleading.png',centered:true,
+  {id:'s08b',num:8,bg:'magic_communication_space.jpg',portrait:'lumi_pleading.png',centered:true,
    choice:{yes:'s09',no:'s08b'},lines:[
     {en:'Will you PLEASE help me?',jp:'どうか、私を助けてくれませんか？'}]},
-  {id:'s09',num:9,bg:'magic_communication_space.png',portrait:'lumi_happy.png',centered:true,lines:[
+  {id:'s09',num:9,bg:'magic_communication_space.jpg',portrait:'lumi_happy.png',centered:true,lines:[
     {en:'Thank you… thank you so much!',jp:'ありがとうございます…本当にありがとう！'}]},
-  {id:'s10',num:10,bg:'magic_communication_space.png',portrait:'lumi_neutral.png',centered:true,lines:[
+  {id:'s10',num:10,bg:'magic_communication_space.jpg',portrait:'lumi_neutral.png',centered:true,lines:[
     {en:'Before I bring you here, I need to create an anchor!',jp:'こちらへ呼ぶ前に、まず「錨（いかり）」を作らないと！',sfx:'anchor_hum'}]},
-  {id:'s11',num:11,bg:'summoning_circle_bg.png',lines:[
+  {id:'s11',num:11,bg:'summoning_circle_bg.jpg',lines:[
     {en:'Perfect! The magic circle is complete!',jp:'完璧！魔法陣が完成した！',sfx:'magic_circle_complete'}]},
-  {id:'s12',num:12,bg:'summoning_circle_bg.png',portrait:'lumi_happy.png',lines:[
+  {id:'s12',num:12,bg:'summoning_circle_bg.jpg',portrait:'lumi_happy.png',lines:[
     {en:"Now… Let's go!",jp:'さあ…行こう！'}]},
   /* ── hero transformation (silent) ── */
   {id:'s13',num:13,white:true,center:'student_heroes.png',lines:[{en:'',jp:''}]},
   {id:'s15',num:15,white:true,center:'heroes.png',flashIn:true,flashSfx:'whoosh_transform',lines:[{en:'',jp:''}]},
   /* ── arrival ── */
-  {id:'s17',num:17,bg:'broken_world_bg.png',portrait:'lumi.png',flashIn:true,flashSfx:'portal_open',lines:[
+  {id:'s17',num:17,bg:'broken_world_bg.jpg',portrait:'lumi.png',flashIn:true,flashSfx:'portal_open',lines:[
     {en:'Welcome to my world! These are the four areas: Castle, Forest, Mountain, and Sky!',jp:'私の世界へようこそ！ここには「城」「森」「山」「空」の四つのエリアがあるの！'}]},
-  {id:'s18',num:18,bg:'broken_world_bg.png',portrait:'lumi_neutral.png',lines:[
+  {id:'s18',num:18,bg:'broken_world_bg.jpg',portrait:'lumi_neutral.png',lines:[
     {en:'To seal the cracks, I need five magic crystals.',jp:'ひびを封じるには、五つの魔法の水晶が必要なの。'}]},
-  {id:'s19',num:19,bg:'broken_world_bg.png',portrait:'lumi.png',lines:[
+  {id:'s19',num:19,bg:'broken_world_bg.jpg',portrait:'lumi.png',lines:[
     {en:'I already have the purple crystal!',jp:'紫の水晶はもう私が持ってる！'}]},
-  {id:'s20',num:20,bg:'boss_silhouette.png',lines:[
+  {id:'s20',num:20,bg:'boss_silhouette.jpg',lines:[
     {en:"You must find the other four. Each area's guardian protects one.",jp:'残りの四つを見つけて。各エリアの守護者が一つずつ守っているの！'}]},
-  {id:'s21',num:21,bg:'npc_montage.png',portrait:'lumi_happy.png',lines:[
+  {id:'s21',num:21,bg:'npc_montage.jpg',portrait:'lumi_happy.png',lines:[
     {en:"You'll meet many people along the way.",jp:'旅の途中で、たくさんの人たちと出会うよ。'}]},
-  {id:'s22',num:22,bg:'broken_world_bg.png',portrait:'lumi_laugh.png',fadeWhiteAfter:true,lines:[
+  {id:'s22',num:22,bg:'broken_world_bg.jpg',portrait:'lumi_laugh.png',fadeWhiteAfter:true,lines:[
     {en:'Work together, heroes! Are you ready?',jp:'力を合わせてね、ヒーローたち！準備はいい？'},
     {en:"Let's… GO!!",jp:'それじゃ…レッツゴー！！',sfx:'victory_fanfare'}]},
 ];
