@@ -541,6 +541,9 @@ button{font-family:inherit;cursor:pointer;}
 .portal-soon{cursor:default;opacity:.78;}
 .portal-soon:hover{transform:none !important;box-shadow:0 4px 24px var(--shadow),inset 0 1px 0 rgba(255,255,255,.8);}
 .portal-soon::after{animation:none;}
+/* temporarily hidden — kept in the markup so it's a one-line toggle
+   to bring back later, just remove this class from the element */
+.portal-hidden{display:none !important;}
 .soon-ribbon{
   position:absolute;top:14px;right:-34px;
   background:var(--purple-dark);color:var(--gold-pale);
@@ -754,6 +757,7 @@ footer{
     <h2 class="section-heading">🎵 Theme Song<span class="jp">テーマソング</span></h2>
 
     <div class="video-frame-wrap" id="video-wrap">
+      <span class="soon-ribbon">SOON</span>
       <video class="theme-video" id="theme-video" controls playsinline preload="metadata"
              poster="assets/mv_poster.jpg">
         <source src="assets/herosproof_mv.mp4" type="video/mp4" id="mv-source">
@@ -839,8 +843,9 @@ footer{
         <span class="portal-arrow">↗</span>
       </a>
 
-      <!-- Kanji Quest (tentative / coming soon) -->
-      <div class="portal portal-kanji portal-soon" aria-disabled="true">
+      <!-- Kanji Quest (tentative / coming soon) — temporarily hidden, remove
+           "portal-hidden" below to bring it back -->
+      <div class="portal portal-kanji portal-soon portal-hidden" aria-disabled="true">
         <span class="soon-ribbon">SOON</span>
         <span class="portal-icon">🀄</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
@@ -875,8 +880,9 @@ footer{
         <span class="portal-arrow">↗</span>
       </a>
 
-      <!-- Story & Characters -->
-      <a href="https://herosproof.github.io/stories" class="portal portal-stories">
+      <!-- Story & Characters (coming soon) -->
+      <div class="portal portal-stories portal-soon" aria-disabled="true">
+        <span class="soon-ribbon">SOON</span>
         <span class="portal-icon">📖</span>
         <p class="portal-tag">Read &amp; Listen<span class="jp">· 物語</span></p>
         <p class="portal-title">Story &amp; Characters
@@ -890,11 +896,11 @@ footer{
           <span class="chip chip-gold">📚 Reading</span>
           <span class="chip chip-green">🇯🇵 JP+EN</span>
         </div>
-        <span class="portal-arrow">↗</span>
-      </a>
+      </div>
 
-      <!-- Music Room -->
-      <a href="https://herosproof.github.io/music" class="portal portal-music">
+      <!-- Music Room (coming soon) -->
+      <div class="portal portal-music portal-soon" aria-disabled="true">
+        <span class="soon-ribbon">SOON</span>
         <span class="portal-icon">🎵</span>
         <p class="portal-tag">Listen<span class="jp">· 音楽</span></p>
         <p class="portal-title">Music Room
@@ -908,11 +914,11 @@ footer{
           <span class="chip chip-pink">🎵 Music</span>
           <span class="chip chip-gold">📝 Lyrics</span>
         </div>
-        <span class="portal-arrow">↗</span>
-      </a>
+      </div>
 
-      <!-- Parents & Teachers -->
-      <a href="https://herosproof.github.io/parents" class="portal portal-parents">
+      <!-- Parents & Teachers — temporarily hidden, remove
+           "portal-hidden" below to bring it back -->
+      <a href="https://herosproof.github.io/parents" class="portal portal-parents portal-hidden">
         <span class="portal-icon">🎓</span>
         <p class="portal-tag">For Adults<span class="jp">· おとなの方へ</span></p>
         <p class="portal-title">For Parents &amp; Teachers
@@ -929,8 +935,9 @@ footer{
         <span class="portal-arrow">↗</span>
       </a>
 
-      <!-- Credits -->
-      <a href="https://herosproof.github.io/credits" class="portal portal-credits">
+      <!-- Credits — temporarily hidden, remove
+           "portal-hidden" below to bring it back -->
+      <a href="https://herosproof.github.io/credits" class="portal portal-credits portal-hidden">
         <span class="portal-icon">⭐</span>
         <p class="portal-tag">Info<span class="jp">· クレジット</span></p>
         <p class="portal-title">Credits
