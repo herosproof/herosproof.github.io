@@ -75,7 +75,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .hp-tagline{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:clamp(.82rem,2.2vw,.98rem);
+  font-size:clamp(.92rem,2.5vw,1.1rem);
   color:var(--purple-light);line-height:1.9;
   max-width:560px;margin:0 auto;
   opacity:.9;
@@ -122,8 +122,8 @@ button{font-family:inherit;cursor:pointer;}
 }
 .vn-stage.theater{position:fixed;inset:0;z-index:1000;width:100vw;height:100vh;}
 /* bigger UI when on a TV / fullscreen */
-.vn-stage.big .vn-en{font-size:clamp(1.15rem,3vmin,2rem);}
-.vn-stage.big .vn-jp{font-size:clamp(.95rem,2.4vmin,1.55rem);}
+.vn-stage.big .vn-en{font-size:clamp(1.3rem,3.6vmin,2.3rem);}
+.vn-stage.big .vn-jp{font-size:clamp(1.1rem,2.8vmin,1.8rem);}
 .vn-stage.big .vn-name{font-size:clamp(.9rem,2.2vmin,1.3rem);padding:4px 18px;}
 .vn-stage.big .vn-dialog{left:6%;right:6%;bottom:5%;padding:22px 28px 20px;border-radius:20px;}
 .vn-stage.big .vn-btn{font-size:clamp(.78rem,1.8vmin,1rem);padding:9px 16px;}
@@ -216,7 +216,7 @@ button{font-family:inherit;cursor:pointer;}
   padding:14px 18px 12px;
   backdrop-filter:blur(4px);
   cursor:pointer;
-  min-height:96px;
+  min-height:112px;
 }
 .vn-dialog.hide{display:none;}
 .vn-name{
@@ -224,18 +224,18 @@ button{font-family:inherit;cursor:pointer;}
   background:linear-gradient(135deg,var(--purple-dark),var(--purple));
   border:1px solid rgba(240,208,96,.6);
   border-radius:10px;padding:3px 14px;
-  font-weight:700;font-size:.82rem;color:var(--gold-pale);
+  font-weight:700;font-size:.92rem;color:var(--gold-pale);
   letter-spacing:.06em;
   font-family:'Fredoka','Zen Maru Gothic',sans-serif;
 }
 .vn-en{
-  font-size:clamp(.95rem,2.8vw,1.12rem);
+  font-size:clamp(1.08rem,3.4vw,1.38rem);
   font-weight:600;color:var(--cream);
   line-height:1.6;margin-top:6px;min-height:1.6em;
 }
 .vn-jp{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:clamp(.78rem,2.3vw,.9rem);
+  font-size:clamp(.92rem,2.8vw,1.12rem);
   color:var(--purple-light);line-height:1.7;margin-top:5px;
 }
 .vn-jp.hidden{display:none;}
@@ -333,11 +333,11 @@ button{font-family:inherit;cursor:pointer;}
 }
 .vn-choice.show{display:flex;animation:endFade .35s ease;}
 .vn-choice-q{
-  font-size:clamp(1rem,3vw,1.4rem);font-weight:700;color:var(--cream);line-height:1.7;
+  font-size:clamp(1.1rem,3.4vw,1.55rem);font-weight:700;color:var(--cream);line-height:1.7;
 }
 .vn-choice-q .jp{
   display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:clamp(.88rem,2.6vw,1.15rem);color:var(--purple-light);margin-top:4px;
+  font-size:clamp(.98rem,2.9vw,1.28rem);color:var(--purple-light);margin-top:4px;
 }
 .vn-choice-btns{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
 .vn-choice-btn{
@@ -380,7 +380,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .vn-overlay-sub{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:clamp(.8rem,2.4vw,.94rem);
+  font-size:clamp(.9rem,2.7vw,1.06rem);
   color:var(--purple-light);line-height:1.8;opacity:.9;
 }
 .vn-start-btn{
@@ -442,7 +442,7 @@ button{font-family:inherit;cursor:pointer;}
 }
 .video-placeholder-jp{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:clamp(.78rem,2.5vw,.92rem);
+  font-size:clamp(.88rem,2.8vw,1.04rem);
   color:var(--purple-light);text-align:center;
   line-height:1.8;opacity:.8;
 }
@@ -453,20 +453,20 @@ button{font-family:inherit;cursor:pointer;}
 }
 .speed-label{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:.8rem;color:var(--text-muted);font-weight:700;
+  font-size:.86rem;color:var(--text-muted);font-weight:700;
 }
 .speed-btn{
   background:rgba(245,238,220,.06);
   border:1px solid rgba(201,160,48,.4);
   color:var(--gold-pale);border-radius:24px;
-  padding:8px 16px;font-size:.8rem;font-weight:600;
+  padding:8px 16px;font-size:.86rem;font-weight:600;
   line-height:1.3;text-align:center;
   transition:background .2s,transform .15s,border-color .2s;
 }
 .speed-btn small{
   display:block;
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:.68rem;opacity:.75;font-weight:500;
+  font-size:.72rem;opacity:.75;font-weight:500;
 }
 .speed-btn:hover{background:rgba(144,96,192,.25);}
 .speed-btn:active{transform:scale(.95);}
@@ -532,8 +532,10 @@ button{font-family:inherit;cursor:pointer;}
 .portal-writing {--portal-accent:#f0a090;--scan-delay:1.4s;}
 .portal-kanji   {--portal-accent:#e87060;--scan-delay:2s;}
 .portal-sugoroku{--portal-accent:#90b8f0;--scan-delay:2.6s;}
-.portal-stories {--portal-accent:var(--gold-light);--scan-delay:3.2s;}
+.portal-story   {--portal-accent:var(--gold-light);--scan-delay:3.2s;}
+.portal-characters{--portal-accent:#f0a868;--scan-delay:3.6s;}
 .portal-music   {--portal-accent:#f0a8d0;--scan-delay:1s;}
+.portal-message {--portal-accent:#e87090;--scan-delay:2.1s;}
 .portal-parents {--portal-accent:#80c8d8;--scan-delay:1.8s;}
 .portal-credits {--portal-accent:var(--gold);--scan-delay:2.4s;}
 
@@ -557,35 +559,35 @@ button{font-family:inherit;cursor:pointer;}
 .portal-icon{font-size:2.4rem;display:block;margin-bottom:10px;line-height:1;}
 .portal-tag{
   font-family:'Fredoka',sans-serif;
-  font-size:.7rem;letter-spacing:.14em;
+  font-size:.76rem;letter-spacing:.14em;
   color:var(--brown);text-transform:uppercase;
   opacity:.8;margin-bottom:5px;font-weight:600;
 }
 .portal-tag .jp{
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:.72rem;margin-left:5px;
+  font-size:.78rem;margin-left:5px;
   opacity:.75;letter-spacing:.04em;
 }
 .portal-title{
   font-family:'Fredoka',sans-serif;
-  font-size:1.1rem;font-weight:700;
+  font-size:1.2rem;font-weight:700;
   color:var(--text-dark);line-height:1.3;margin-bottom:7px;
 }
 .portal-title .jp{
   display:block;
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:.82rem;color:var(--text-soft);
+  font-size:.9rem;color:var(--text-soft);
   font-weight:600;margin-top:2px;
 }
 .portal-desc{
-  font-size:.83rem;font-weight:500;
-  color:var(--text-soft);line-height:1.65;
+  font-size:.94rem;font-weight:500;
+  color:var(--text-soft);line-height:1.7;
 }
 .portal-desc .jp{
   display:block;
   font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
-  font-size:.76rem;color:rgba(90,60,40,.75);
-  margin-top:3px;line-height:1.6;
+  font-size:.86rem;color:rgba(90,60,40,.75);
+  margin-top:3px;line-height:1.65;
 }
 .portal-arrow{
   position:absolute;bottom:14px;right:16px;
@@ -596,10 +598,15 @@ button{font-family:inherit;cursor:pointer;}
 .portal:hover .portal-arrow{transform:translate(3px,-3px);color:var(--purple);}
 
 /* Skill chips */
-.portal-chips{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap;}
+.portal-chips{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
 .chip{
-  font-size:.65rem;padding:2px 9px;border-radius:20px;
+  display:inline-flex;flex-direction:column;align-items:center;
+  font-size:.7rem;line-height:1.25;padding:4px 11px;border-radius:20px;
   font-weight:600;font-family:'Fredoka',sans-serif;
+}
+.chip .jp{
+  font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;
+  font-size:.86em;font-weight:500;opacity:.85;margin-top:1px;
 }
 .chip-purple{background:rgba(144,96,192,.15);color:#8a5cb8;border:1px solid rgba(144,96,192,.35);}
 .chip-gold  {background:rgba(201,160,48,.15);color:#9a7a20;border:1px solid rgba(201,160,48,.35);}
@@ -630,7 +637,7 @@ footer{
   .portal-grid{grid-template-columns:1fr;}
   .portal{padding:20px 18px 40px;}
   .vn-stage{aspect-ratio:auto;height:440px;}
-  .vn-dialog{min-height:112px;}
+  .vn-dialog{min-height:128px;}
   .vn-nav{width:36px;height:50px;}
 }
 @media(prefers-reduced-motion:reduce){
@@ -783,9 +790,72 @@ footer{
     </div>
   </section>
 
-  <!-- ══════════════════════════ PORTALS ══════════════════════════ -->
-  <section class="portals-section" aria-label="Destinations">
-    <h2 class="section-heading">⟡ Choose Your Destination<span class="jp">めざす場所を選ぼう</span></h2>
+  <!-- ══════════════════════════ STORY, CHARACTERS & MUSIC ══════════════════════════ -->
+  <section class="portals-section" aria-label="Story, characters, and music">
+    <h2 class="section-heading">📖 Story, Cast &amp; Music<span class="jp">物語・キャラクター・音楽</span></h2>
+
+    <div class="portal-grid">
+
+      <!-- Story -->
+      <a href="https://herosproof.github.io/story" class="portal portal-story">
+        <span class="portal-icon">📖</span>
+        <p class="portal-tag">Read &amp; Listen<span class="jp">· 物語</span></p>
+        <p class="portal-title">Story
+          <span class="jp">物語</span>
+        </p>
+        <p class="portal-desc">
+          The tales of the crack, fully voiced in English and Japanese!
+          <span class="jp">亀裂の物語をボイス付きで！</span>
+        </p>
+        <div class="portal-chips">
+          <span class="chip chip-gold">📚 Reading<span class="jp">読書</span></span>
+          <span class="chip chip-green">🎌 JP+EN<span class="jp">日英</span></span>
+        </div>
+        <span class="portal-arrow">↗</span>
+      </a>
+
+      <!-- Characters -->
+      <a href="https://herosproof.github.io/characters" class="portal portal-characters">
+        <span class="portal-icon">🎭</span>
+        <p class="portal-tag">Cast<span class="jp">· キャラクター</span></p>
+        <p class="portal-title">Characters
+          <span class="jp">キャラクター図鑑</span>
+        </p>
+        <p class="portal-desc">
+          Meet every hero, boss, and NPC from across the four lands!
+          <span class="jp">四つの世界のヒーロー・ボス・NPCを紹介！</span>
+        </p>
+        <div class="portal-chips">
+          <span class="chip chip-purple">🎭 Cast<span class="jp">キャスト</span></span>
+          <span class="chip chip-gold">🗒️ Profiles<span class="jp">プロフィール</span></span>
+        </div>
+        <span class="portal-arrow">↗</span>
+      </a>
+
+      <!-- Music Room (coming soon) -->
+      <div class="portal portal-music portal-soon" aria-disabled="true">
+        <span class="soon-ribbon">SOON</span>
+        <span class="portal-icon">🎵</span>
+        <p class="portal-tag">Listen<span class="jp">· 音楽</span></p>
+        <p class="portal-title">Music Room
+          <span class="jp">ミュージックルーム</span>
+        </p>
+        <p class="portal-desc">
+          Theme song lyrics with Japanese translation, plus every BGM track!
+          <span class="jp">テーマソングの歌詞と日本語訳、BGMも全部きけるよ！</span>
+        </p>
+        <div class="portal-chips">
+          <span class="chip chip-pink">🎵 Music<span class="jp">音楽</span></span>
+          <span class="chip chip-gold">📝 Lyrics<span class="jp">歌詞</span></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ GAMES ══════════════════════════ -->
+  <section class="portals-section games-section" aria-label="Games">
+    <h2 class="section-heading">⚔️ Choose Your Quest<span class="jp">クエストを選ぼう</span></h2>
 
     <div class="portal-grid">
 
@@ -801,8 +871,8 @@ footer{
           <span class="jp">ルミの魔法をビートに合わせて返して！正しい文字をタップしよう！</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-purple">👂 Phonics</span>
-          <span class="chip chip-gold">🔤 Spelling</span>
+          <span class="chip chip-purple">👂 Phonics<span class="jp">フォニックス</span></span>
+          <span class="chip chip-gold">🔤 Spelling<span class="jp">スペリング</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
@@ -819,8 +889,8 @@ footer{
           <span class="jp">英語の単語をタイプしてヒーローをパワーアップ！</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-green">⌨️ Typing</span>
-          <span class="chip chip-gold">🔤 Spelling</span>
+          <span class="chip chip-green">⌨️ Typing<span class="jp">タイピング</span></span>
+          <span class="chip chip-gold">🔤 Spelling<span class="jp">スペリング</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
@@ -837,8 +907,8 @@ footer{
           <span class="jp">英語を書いてルミの世界を救おう！</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-red">✏️ Writing</span>
-          <span class="chip chip-gold">🌍 Words</span>
+          <span class="chip chip-red">✏️ Writing<span class="jp">ライティング</span></span>
+          <span class="chip chip-gold">🌍 Words<span class="jp">単語</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
@@ -857,10 +927,37 @@ footer{
           <span class="jp">あたらしい試練が、亀裂の中で生まれようとしている…</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-red">🈴 Kanji</span>
-          <span class="chip chip-gold">⚙ 準備中</span>
+          <span class="chip chip-red">🈴 Kanji<span class="jp">かんじ</span></span>
+          <span class="chip chip-gold">⚙ Coming Soon<span class="jp">準備中</span></span>
         </div>
       </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════ CLASSROOM & MORE ══════════════════════════ -->
+  <section class="portals-section" aria-label="Classroom tools and more">
+    <h2 class="section-heading">🎓 Classroom &amp; More<span class="jp">クラス・その他</span></h2>
+
+    <div class="portal-grid">
+
+      <!-- Comment Corner (message wall + private message) -->
+      <a href="https://herosproof.github.io/message" class="portal portal-message">
+        <span class="portal-icon">💌</span>
+        <p class="portal-tag">To Sensei<span class="jp">· せんせいへ</span></p>
+        <p class="portal-title">Comment Corner
+          <span class="jp">コメントコーナー</span>
+        </p>
+        <p class="portal-desc">
+          Leave a message for Sensei, and read notes from other heroes too!
+          <span class="jp">せんせいにメッセージをおくろう。みんなのメッセージも読めるよ！</span>
+        </p>
+        <div class="portal-chips">
+          <span class="chip chip-pink">💌 Message<span class="jp">メッセージ</span></span>
+          <span class="chip chip-gold">📜 Wall<span class="jp">かべ</span></span>
+        </div>
+        <span class="portal-arrow">↗</span>
+      </a>
 
       <!-- Sugoroku -->
       <a href="https://herosproof.github.io/sugoroku" class="portal portal-sugoroku">
@@ -874,47 +971,11 @@ footer{
           <span class="jp">水晶・ボス・世界回復ゲージをクラスで管理しよう！</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-blue">🎲 Board Game</span>
-          <span class="chip chip-purple">💎 Crystals</span>
+          <span class="chip chip-blue">🎲 Board Game<span class="jp">ボードゲーム</span></span>
+          <span class="chip chip-purple">💎 Crystals<span class="jp">水晶</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
-
-      <!-- Story & Characters (coming soon) -->
-      <div class="portal portal-stories portal-soon" aria-disabled="true">
-        <span class="soon-ribbon">SOON</span>
-        <span class="portal-icon">📖</span>
-        <p class="portal-tag">Read &amp; Listen<span class="jp">· 物語</span></p>
-        <p class="portal-title">Story &amp; Characters
-          <span class="jp">物語とキャラクター</span>
-        </p>
-        <p class="portal-desc">
-          The tales of the crack, fully voiced — and meet every hero and boss!
-          <span class="jp">亀裂の物語をボイス付きで。キャラクターも紹介！</span>
-        </p>
-        <div class="portal-chips">
-          <span class="chip chip-gold">📚 Reading</span>
-          <span class="chip chip-green">🇯🇵 JP+EN</span>
-        </div>
-      </div>
-
-      <!-- Music Room (coming soon) -->
-      <div class="portal portal-music portal-soon" aria-disabled="true">
-        <span class="soon-ribbon">SOON</span>
-        <span class="portal-icon">🎵</span>
-        <p class="portal-tag">Listen<span class="jp">· 音楽</span></p>
-        <p class="portal-title">Music Room
-          <span class="jp">ミュージックルーム</span>
-        </p>
-        <p class="portal-desc">
-          Theme song lyrics with Japanese translation, plus every BGM track!
-          <span class="jp">テーマソングの歌詞と日本語訳、BGMも全部きけるよ！</span>
-        </p>
-        <div class="portal-chips">
-          <span class="chip chip-pink">🎵 Music</span>
-          <span class="chip chip-gold">📝 Lyrics</span>
-        </div>
-      </div>
 
       <!-- Parents & Teachers — temporarily hidden, remove
            "portal-hidden" below to bring it back -->
@@ -929,8 +990,8 @@ footer{
           <span class="jp">カードテンプレート・ゲームボード・ワークシートを印刷できます。</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-blue">🖨️ Printables</span>
-          <span class="chip chip-green">📋 Guides</span>
+          <span class="chip chip-blue">🖨️ Printables<span class="jp">印刷物</span></span>
+          <span class="chip chip-green">📋 Guides<span class="jp">ガイド</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
@@ -948,7 +1009,7 @@ footer{
           <span class="jp">「勇者の証」ができるまで。</span>
         </p>
         <div class="portal-chips">
-          <span class="chip chip-gold">💜 Thanks</span>
+          <span class="chip chip-gold">💜 Thanks<span class="jp">感謝</span></span>
         </div>
         <span class="portal-arrow">↗</span>
       </a>
@@ -1418,7 +1479,7 @@ const VN_SCENES=[
   $('vn-go-portals').addEventListener('click',()=>{
     if(document.fullscreenElement===stage)document.exitFullscreen().catch(()=>{});
     theaterOff();
-    document.querySelector('.portals-section').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+    document.querySelector('.games-section').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
   });
 
   /* ── settings: voice & text language, volume, speed ── */
