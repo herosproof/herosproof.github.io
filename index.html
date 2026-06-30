@@ -385,6 +385,12 @@ button{font-family:inherit;cursor:pointer;}
   font-size:clamp(.9rem,2.7vw,1.06rem);
   color:var(--purple-light);line-height:1.8;opacity:.9;
 }
+.vn-overlay-cover{
+  width:min(280px,72%);border-radius:14px;aspect-ratio:16/10;
+  object-fit:cover;display:block;
+  box-shadow:0 6px 28px rgba(0,0,0,.55);
+  border:1px solid rgba(201,160,48,.35);
+}
 .vn-start-btn{
   background:linear-gradient(135deg,var(--gold),var(--gold-light));
   border:none;border-radius:30px;
@@ -692,6 +698,7 @@ footer{
         <button class="vn-btn" id="vn-text-toggle" title="Text language / 字幕">💬 EN</button>
         <button class="vn-btn" id="vn-settings-btn" title="Settings / 設定">⚙</button>
         <button class="vn-btn" id="vn-restart" title="Restart / はじめから">↺</button>
+        <button class="vn-btn" id="vn-auto" title="Auto-advance / 自動再生">▶ Auto</button>
         <button class="vn-btn" id="vn-fs" title="Fullscreen / 全画面">⛶</button>
       </div>
       <div class="vn-settings" id="vn-settings" hidden>
@@ -713,6 +720,7 @@ footer{
             <button data-rate="0.75">0.75×</button>
             <button data-rate="0.9">0.9×</button>
             <button data-rate="1" class="on">1×</button>
+            <button data-rate="1.1">1.1×</button>
             <button data-rate="1.25">1.25×</button>
           </div>
         </div>
@@ -754,6 +762,8 @@ footer{
 
       <!-- start overlay (also satisfies browser audio policies) -->
       <div class="vn-overlay" id="vn-overlay">
+        <img class="vn-overlay-cover" src="assets/story_intro_cover.jpg" alt=""
+             onerror="this.style.display='none'">
         <span class="vn-overlay-emoji">💜</span>
         <div class="vn-overlay-title">Lumi's Distress Call<br>ルミの呼びかけ</div>
         <p class="vn-overlay-sub">A voice is calling from another world…<br>異世界から、声が聞こえる…</p>
@@ -789,7 +799,8 @@ footer{
       <button class="speed-btn" data-rate="0.75">0.75×<small>ゆっくり</small></button>
       <button class="speed-btn" data-rate="0.9">0.9×<small>すこしゆっくり</small></button>
       <button class="speed-btn active" data-rate="1">1×<small>ふつう</small></button>
-      <button class="speed-btn" data-rate="1.25">1.25×<small>すこしはやい</small></button>
+      <button class="speed-btn" data-rate="1.1">1.1×<small>すこしはやい</small></button>
+      <button class="speed-btn" data-rate="1.25">1.25×<small>はやい</small></button>
     </div>
   </section>
 
@@ -1208,11 +1219,25 @@ const VN_SCENES=[
   let idx=-1,typing=false,typeTimer=null,bgSwapTimer=null;
   let started=false,busy=false,choiceOpen=false;
   let audioEn=null,audioJp=null;
+  let auto=false,autoTimer=null;
   const history=[];
 
   function stopAudio(){
     [audioEn,audioJp].forEach(a=>{if(a){a.pause();a.onended=null;}});
     audioEn=audioJp=null;
+  }
+  function clearAutoTimer(){clearTimeout(autoTimer);autoTimer=null;}
+  /* Schedule auto-advance after the current line finishes typing.
+     Captures idx so a stale timer never fires against the wrong step. */
+  function armAuto(){
+    clearAutoTimer();
+    if(!auto||!started)return;
+    const capturedIdx=idx;
+    const step=steps[capturedIdx];
+    if(!step||step.choiceAfter||step.endAfter)return;
+    const words=(step.en||step.jp||'').split(/\s+/).filter(Boolean).length;
+    const ms=Math.max(2600,words*560)/speed;
+    autoTimer=setTimeout(()=>{if(auto&&idx===capturedIdx&&!choiceOpen)advance();},ms);
   }
   /* short, fire-and-forget sound effects — fail silently if the file
      is missing, never blocks or competes with the voice lines */
@@ -1258,15 +1283,15 @@ const VN_SCENES=[
     el.src=src;
   }
   function typeText(text){
-    clearInterval(typeTimer);
-    if(!text){enEl.textContent='';typing=false;tapEl.classList.remove('show');return;}
-    if(reduceMotion){enEl.textContent=text;typing=false;tapEl.classList.add('show');return;}
+    clearInterval(typeTimer);clearAutoTimer();
+    if(!text){enEl.textContent='';typing=false;tapEl.classList.remove('show');armAuto();return;}
+    if(reduceMotion){enEl.textContent=text;typing=false;tapEl.classList.add('show');armAuto();return;}
     typing=true;tapEl.classList.remove('show');
     enEl.textContent='';
     let i=0;
     typeTimer=setInterval(()=>{
       enEl.textContent=text.slice(0,++i);
-      if(i>=text.length){clearInterval(typeTimer);typing=false;tapEl.classList.add('show');}
+      if(i>=text.length){clearInterval(typeTimer);typing=false;tapEl.classList.add('show');armAuto();}
     },28);
   }
   function preload(i){
@@ -1387,7 +1412,7 @@ const VN_SCENES=[
     setTimeout(()=>{fn();setTimeout(()=>{blackEl.classList.remove('on');busy=false;},250);},450);
   }
   function finishIntro(){
-    stopAudio();
+    clearAutoTimer();stopAudio();
     if(reduceMotion){endPanel.classList.add('show');return;}
     busy=true;flashEl.classList.add('on');
     setTimeout(()=>{
@@ -1399,20 +1424,23 @@ const VN_SCENES=[
     if(!started||busy||endPanel.classList.contains('show'))return;
     if(choiceOpen)return;
     const step=steps[idx];
-    if(typing){ /* finish line instantly */
-      clearInterval(typeTimer);typing=false;
+    if(typing){ /* finish line instantly, re-arm auto for the now-visible line */
+      clearInterval(typeTimer);clearAutoTimer();typing=false;
       enEl.textContent=step.en;
       tapEl.classList.add('show');
+      armAuto();
       return;
     }
     if(step.choiceAfter){
+      clearAutoTimer();
       choiceOpen=true;choiceEl.classList.add('show');
       playSfx('choice_appear',0.6);
       return;
     }
-    if(step.endAfter){finishIntro();return;}
+    if(step.endAfter){clearAutoTimer();finishIntro();return;}
     const next=idx+1;
-    if(next>=steps.length){finishIntro();return;}
+    if(next>=steps.length){clearAutoTimer();finishIntro();return;}
+    clearAutoTimer();
     if(steps[next].flashIn){flashTo(()=>goTo(next,true),steps[next].flashSfx);}
     else goTo(next,true);
   }
@@ -1427,7 +1455,7 @@ const VN_SCENES=[
     render(idx);
   }
   function restart(){
-    stopAudio();
+    clearAutoTimer();stopAudio();
     history.length=0;
     endPanel.classList.remove('show');
     choiceOpen=false;choiceEl.classList.remove('show');
@@ -1567,6 +1595,17 @@ const VN_SCENES=[
   });
 
   refreshLangUI();
+
+  /* ── auto-advance toggle ── */
+  const autoBtn=$('vn-auto');
+  autoBtn.addEventListener('click',e=>{
+    e.stopPropagation();
+    auto=!auto;
+    autoBtn.classList.toggle('on',auto);
+    autoBtn.textContent=auto?'⏸ Auto':'▶ Auto';
+    if(auto&&started&&idx>=0&&!typing)armAuto();
+    else if(!auto)clearAutoTimer();
+  });
 })();
 
 /* ─────────────────────────────────────────────
