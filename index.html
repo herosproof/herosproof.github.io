@@ -492,12 +492,14 @@ button{font-family:inherit;cursor:pointer;}
 .storymode-banner{position:relative;display:block;text-decoration:none;background:var(--card-bg,rgba(245,238,220,0.97));border:1px solid rgba(245,158,11,.35);border-radius:24px;padding:26px 24px;box-shadow:0 6px 30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.8);overflow:hidden;transition:transform .2s,box-shadow .2s;}
 .storymode-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,#f0d060,#9060c0,#f0d060,transparent);}
 .storymode-banner:hover{transform:translateY(-6px);box-shadow:0 14px 40px rgba(0,0,0,.5);}
-.storymode-inner{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.storymode-inner{position:relative;z-index:1;display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+.storymode-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.5;z-index:0;pointer-events:none;}
 .storymode-icon{font-size:2.6rem;filter:drop-shadow(0 0 10px rgba(240,208,96,.6));}
 .storymode-txt{flex:1;min-width:220px;}
 .storymode-title{font-family:'Press Start 2P',monospace;font-size:clamp(.8rem,3vw,1.05rem);color:#1e1235;line-height:1.6;}
 .storymode-title .jp{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.95rem;color:#3a2558;letter-spacing:.14em;margin-top:5px;font-weight:700;}
 .storymode-desc{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.9rem;color:rgba(70,48,30,.92);line-height:1.8;margin-top:9px;}
+.storymode-desc ruby rt{font-size:.6em;color:#8a6712;font-weight:600;}
 .storymode-cta{font-size:1.5rem;color:#8a6712;}
 .portals-section{margin:48px 0 0;}
 .portal-grid{
@@ -768,7 +770,7 @@ footer{
         <div class="vn-overlay-title">Your quest begins!<br>冒険のはじまり！</div>
         <div class="vn-end-actions">
           <button class="vn-btn" id="vn-replay">↺ Replay · もう一度</button>
-          <button class="vn-btn on" id="vn-go-portals">⚔️ Choose a quest · クエストへ</button>
+          <button class="vn-btn on" id="vn-go-portals">🗺️ Enter Story Mode · ストーリーモードへ</button>
         </div>
       </div>
 
@@ -819,12 +821,12 @@ footer{
   <!-- ══════════════════ STORY MODE ══════════════════ -->
   <section class="storymode-section" aria-label="Story Mode curriculum">
     <a href="https://herosproof.github.io/story-mode" class="storymode-banner">
+      <img class="storymode-bg" src="assets/brokenworld.png" alt="" onerror="this.style.display='none'">
       <div class="storymode-inner">
-        <span class="storymode-icon">🗺️</span>
         <div class="storymode-txt">
-          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード ・ ルミといっしょに英語(えいご)を学(まな)ぼう！</span></p>
+          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード・ルミと いっしょに英語を学ぼう！</span></p>
           <p class="storymode-desc">Learn English stage by stage — story, key spells, vocabulary, quests, and boss battles!<br>
-          ①物語(ものがたり) → ②呪文解析(じゅもんかいせき) → ③アイテム図鑑(ずかん) → ④クエスト → ⑤ボス戦(せん)！</p>
+          ①物語 → ②<ruby>呪文解析<rt>じゅもんかいせき</rt></ruby> → ③アイテム図鑑 → ④クエスト → ⑤ボス戦！</p>
         </div>
         <span class="storymode-cta">↗</span>
       </div>
@@ -1555,7 +1557,7 @@ const VN_SCENES=[
   $('vn-go-portals').addEventListener('click',()=>{
     if(document.fullscreenElement===stage)document.exitFullscreen().catch(()=>{});
     theaterOff();
-    document.querySelector('.games-section').scrollIntoView({behavior:reduceMotion?'auto':'smooth'});
+    window.location.href='https://herosproof.github.io/story-mode';
   });
 
   /* ── settings: voice & text language, volume, speed ── */
