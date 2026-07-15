@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Hero's Proof">
 <title>Hero's Proof · 勇者の証</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&family=Comic+Relief:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#3a2558;--bg2:#2a1845;--panel2:#1e1235;
@@ -114,6 +114,16 @@ button{font-family:inherit;cursor:pointer;}
    VISUAL NOVEL INTRO
 ════════════════════════════ */
 .intro-scene-section{margin:44px 0 0;}
+/* ── collapsed intro (repeat visitors): slim replay card instead of the full stage ── */
+.intro-scene-section.mini .vn-stage{display:none;}
+.vn-collapsed{width:100%;text-align:left;font-family:inherit;background:linear-gradient(160deg,rgba(42,24,69,.92),rgba(30,18,53,.92));border:1px solid rgba(201,160,48,.35);border-radius:18px;padding:14px 18px;display:flex;align-items:center;gap:14px;color:var(--cream);cursor:pointer;transition:transform .15s,border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.4);}
+.vn-collapsed:hover{transform:translateY(-2px);border-color:rgba(240,208,96,.55);}
+.vn-collapsed:active{transform:scale(.98);}
+.vn-collapsed .emoji{font-size:1.9rem;filter:drop-shadow(0 0 10px rgba(200,160,224,.5));}
+.vn-collapsed .txt{flex:1;min-width:0;}
+.vn-collapsed .t1{display:block;font-weight:700;color:var(--gold-light);font-size:.95rem;line-height:1.4;}
+.vn-collapsed .t2{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.8rem;color:var(--purple-light);line-height:1.6;}
+.vn-collapsed .play{font-weight:700;font-size:.82rem;color:var(--gold-light);text-align:center;line-height:1.5;border:1px solid rgba(240,208,96,.4);border-radius:12px;padding:8px 12px;white-space:nowrap;}
 .vn-stage{
   position:relative;width:100%;aspect-ratio:16/10;
   min-height:300px;max-height:520px;
@@ -460,6 +470,29 @@ button{font-family:inherit;cursor:pointer;}
   color:var(--purple-light);text-align:center;
   line-height:1.8;opacity:.8;
 }
+/* ── synced subtitle overlay (on the video) ──
+   JP small in pale yellow on top · EN large in white below · thin grey outline.
+   .plain = black text, no outline (for the white-screen finale). */
+.video-subs{position:absolute;left:4%;right:4%;bottom:6.5%;z-index:4;text-align:center;pointer-events:none;opacity:0;transition:opacity .55s ease;}
+.video-subs.show{opacity:1;}
+.subs-jp{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-weight:700;color:#ffe9a3;font-size:calc(var(--vidw,640px)*.027);line-height:1.6;letter-spacing:.1em;
+  text-shadow:-1px -1px 0 #4d4d4d,1px -1px 0 #4d4d4d,-1px 1px 0 #4d4d4d,1px 1px 0 #4d4d4d,0 -1px 0 #4d4d4d,0 1px 0 #4d4d4d,-1px 0 0 #4d4d4d,1px 0 0 #4d4d4d;}
+.subs-en{font-family:'Comic Relief','Fredoka','Zen Maru Gothic',sans-serif;font-weight:700;color:#fff;font-size:calc(var(--vidw,640px)*.05);line-height:1.3;
+  text-shadow:-1px -1px 0 #4d4d4d,1px -1px 0 #4d4d4d,-1px 1px 0 #4d4d4d,1px 1px 0 #4d4d4d,0 -1px 0 #4d4d4d,0 1px 0 #4d4d4d,-1px 0 0 #4d4d4d,1px 0 0 #4d4d4d;}
+.video-subs.plain .subs-en{color:#111;text-shadow:none;}
+.video-subs.plain .subs-jp{color:#111;text-shadow:none;}
+
+/* ── lyrics practice list (collapsed behind a toggle) ── */
+.lyrics-toggle{display:block;margin:14px auto 0;background:rgba(74,56,112,.5);border:1px solid rgba(201,160,48,.35);color:var(--gold-pale);font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-weight:700;font-size:.82rem;border-radius:30px;padding:9px 18px;cursor:pointer;transition:background .2s;}
+.lyrics-toggle:hover{background:rgba(74,56,112,.8);}
+.lyrics-panel{margin-top:16px;background:rgba(20,12,38,.65);border:1px solid rgba(201,160,48,.3);border-radius:16px;padding:12px 14px;}
+.lyrics-title{font-weight:700;color:var(--gold-light);font-size:.92rem;margin:0 0 8px;letter-spacing:.03em;}
+.lyrics-hint{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.72rem;color:var(--purple-light);font-weight:500;margin-left:10px;letter-spacing:0;}
+.lyrics-scroll{position:relative;max-height:220px;overflow-y:auto;padding:4px 2px;scrollbar-width:thin;scrollbar-color:rgba(201,160,48,.4) transparent;}
+.lyric-line{display:block;width:100%;text-align:center;background:none;border:none;color:rgba(217,201,168,.5);font-family:inherit;font-size:.98rem;line-height:1.5;padding:6px 8px;border-radius:10px;cursor:pointer;transition:color .25s,background .25s,transform .25s;}
+.lyric-line .jp{display:block;font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-size:.78rem;opacity:.85;line-height:1.6;}
+.lyric-line:hover{color:var(--cream);}
+.lyric-line.active{color:var(--gold-light);background:rgba(74,56,112,.5);font-weight:700;transform:scale(1.02);}
 /* speed controls */
 .speed-bar{
   display:flex;align-items:center;justify-content:center;
@@ -673,6 +706,7 @@ footer{
   *,*::before,*::after{animation:none !important;transition-duration:.01s !important;}
   html{scroll-behavior:auto;}
 }
+[hidden]{display:none!important;}
 </style>
 </head>
 <body>
@@ -790,6 +824,31 @@ footer{
         <button class="vn-start-btn" id="vn-start">▶ START · はじめる</button>
       </div>
     </div>
+
+    <!-- collapsed replay card — shown instead of the full stage once the intro has been completed on this device -->
+    <button class="vn-collapsed" id="vn-collapsed" type="button" hidden>
+      <span class="emoji">💜</span>
+      <span class="txt">
+        <span class="t1">Lumi's Distress Call — watched ✔</span>
+        <span class="t2">イントロは みおわったよ。もういちど みる？</span>
+      </span>
+      <span class="play">▶ Replay<br>もう一度</span>
+    </button>
+  </section>
+
+  <!-- ══════════════════ STORY MODE (main attraction — right under the intro) ══════════════════ -->
+  <section class="storymode-section" aria-label="Story Mode curriculum">
+    <a href="https://herosproof.github.io/story-mode" class="storymode-banner">
+      <div class="storymode-inner">
+        <img class="storymode-icon-img" src="assets/brokenworld.png" alt="" onerror="this.style.display='none'">
+        <div class="storymode-txt">
+          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード・ルミと いっしょに英語を学ぼう！</span></p>
+          <p class="storymode-desc">Learn English stage by stage — story, key spells, vocabulary, quests, and boss battles!<br>
+          ①物語 → ②<ruby>呪文解析<rt>じゅもんかいせき</rt></ruby> → ③アイテム図鑑 → ④クエスト → ⑤ボス戦！</p>
+        </div>
+        <span class="storymode-cta">↗</span>
+      </div>
+    </a>
   </section>
 
   <!-- ══════════════════════════ MUSIC VIDEO ══════════════════════════ -->
@@ -798,6 +857,11 @@ footer{
 
     <div class="video-frame-wrap" id="video-wrap">
       <span class="soon-ribbon">SOON</span>
+      <!-- synced subtitle overlay (filled from assets/theme_lyrics.txt) -->
+      <div class="video-subs" id="video-subs" aria-hidden="true">
+        <div class="subs-jp" id="subs-jp"></div>
+        <div class="subs-en" id="subs-en"></div>
+      </div>
       <video class="theme-video" id="theme-video" controls playsinline preload="metadata"
              poster="assets/mv_poster.jpg">
         <source src="assets/herosproof_mv.mp4" type="video/mp4" id="mv-source">
@@ -822,21 +886,18 @@ footer{
       <button class="speed-btn" data-rate="1.1">1.1×<small>すこしはやい</small></button>
       <button class="speed-btn" data-rate="1.25">1.25×<small>はやい</small></button>
     </div>
-  </section>
 
-  <!-- ══════════════════ STORY MODE ══════════════════ -->
-  <section class="storymode-section" aria-label="Story Mode curriculum">
-    <a href="https://herosproof.github.io/story-mode" class="storymode-banner">
-      <div class="storymode-inner">
-        <img class="storymode-icon-img" src="assets/brokenworld.png" alt="" onerror="this.style.display='none'">
-        <div class="storymode-txt">
-          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード・ルミと いっしょに英語を学ぼう！</span></p>
-          <p class="storymode-desc">Learn English stage by stage — story, key spells, vocabulary, quests, and boss battles!<br>
-          ①物語 → ②<ruby>呪文解析<rt>じゅもんかいせき</rt></ruby> → ③アイテム図鑑 → ④クエスト → ⑤ボス戦！</p>
-        </div>
-        <span class="storymode-cta">↗</span>
-      </div>
-    </a>
+    <!-- lyrics come from assets/theme_lyrics.txt — an Audacity label export.
+         Point labels (start==end) are fine: each line shows until the next label.
+         Formats understood: "English lyric 日本語やく" (auto-split at the first
+         Japanese character) or "English|日本語". Special labels: a label whose
+         text contains "fade out" ends the previous line there; a label with
+         "(black text color)" renders black with no outline (white-screen finale). -->
+    <button class="lyrics-toggle" id="lyrics-toggle" hidden>🎤 かしリストを ひらく · Lyrics list ▾</button>
+    <div class="lyrics-panel" id="lyrics-panel" hidden>
+      <p class="lyrics-title">🎤 Lyrics · かし<span class="lyrics-hint">ぎょうを タップすると そこに ジャンプ！</span></p>
+      <div class="lyrics-scroll" id="lyrics-scroll" aria-live="off"></div>
+    </div>
   </section>
 
   <!-- ══════════════════════════ STORY, CHARACTERS & MUSIC ══════════════════════════ -->
@@ -1327,7 +1388,7 @@ const VN_SCENES=[
     typeTimer=setInterval(()=>{
       enEl.textContent=text.slice(0,++i);
       if(i>=text.length){clearInterval(typeTimer);typing=false;tapEl.classList.add('show');armAuto();}
-    },28);
+    },Math.max(10,Math.round(28/speed)));
   }
   function preload(i){
     const s=steps[i];if(!s)return;
@@ -1448,6 +1509,7 @@ const VN_SCENES=[
   }
   function finishIntro(){
     clearAutoTimer();stopAudio();
+    try{localStorage.setItem('hp-home-intro-done','1');}catch(e){} /* remembered → slim replay card on future visits */
     if(reduceMotion){endPanel.classList.add('show');return;}
     busy=true;flashEl.classList.add('on');
     setTimeout(()=>{
@@ -1631,6 +1693,19 @@ const VN_SCENES=[
 
   refreshLangUI();
 
+  /* ── repeat visitors: collapse the intro into a slim replay card ── */
+  (function(){
+    const sec=document.querySelector('.intro-scene-section');
+    const card=$('vn-collapsed');
+    if(!sec||!card)return;
+    let done=false;try{done=localStorage.getItem('hp-home-intro-done')==='1';}catch(e){}
+    if(done){sec.classList.add('mini');card.hidden=false;}
+    card.addEventListener('click',()=>{
+      sec.classList.remove('mini');card.hidden=true;
+      stage.scrollIntoView({behavior:'smooth',block:'center'});
+    });
+  })();
+
   /* ── auto-advance toggle ── */
   const autoBtn=$('vn-auto');
   autoBtn.addEventListener('click',e=>{
@@ -1671,8 +1746,115 @@ const VN_SCENES=[
       speedBar.querySelectorAll('.speed-btn').forEach(b=>b.classList.toggle('active',b===btn));
     });
   });
-  video.addEventListener('loadeddata',()=>{video.playbackRate=rate;});
+  video.addEventListener('loadeddata',()=>{
+    video.playbackRate=rate;
+    /* the video really exists — retire the SOON ribbon automatically */
+    const ribbon=document.querySelector('#video-wrap .soon-ribbon');
+    if(ribbon)ribbon.style.display='none';
+  });
   video.addEventListener('play',()=>{video.playbackRate=rate;});
+
+  /* ── synced subtitles from an Audacity label export ───────────────────────
+     Workflow: label the song in Audacity → File ▸ Export ▸ Export Labels →
+     save as  assets/theme_lyrics.txt.  No code edits needed.
+     · Point labels (start==end) work: each line shows until the next label.
+     · "English lyric 日本語やく" is auto-split at the first Japanese character
+       (or use an explicit "English|日本語").
+     · A label containing "fade out" ends/fades the previous line there.
+     · A label containing "(black text color)" renders that line in black with
+       no outline — for the white-screen finale.
+     Timing uses MEDIA time (video.currentTime), which playbackRate never
+     changes — so subtitles stay perfectly synced at every speed for free. */
+  const CJK=/[\u3000-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff01-\uff60]/;
+  function parseLabels(txt){
+    const raw=txt.split(/\r?\n/)
+      .map(l=>l.split('\t'))
+      .filter(p=>p.length>=3&&isFinite(parseFloat(p[0])))
+      .map(p=>({start:parseFloat(p[0]),end:parseFloat(p[1]),text:p.slice(2).join(' ').trim()}))
+      .filter(e=>e.text)
+      .sort((a,b)=>a.start-b.start);
+    const cues=[];
+    raw.forEach(e=>{
+      /* directive: "fade out" (no lyric) → previous cue ends here */
+      if(/fade\s*out/i.test(e.text)&&!CJK.test(e.text)){
+        if(cues.length)cues[cues.length-1].end=e.start;
+        return;
+      }
+      let t=e.text,black=false;
+      if(/\(\s*black[^)]*\)/i.test(t)){black=true;t=t.replace(/\(\s*black[^)]*\)/ig,'').trim();}
+      let en=t,jp='';
+      if(t.includes('|')){const p=t.split('|');en=p[0].trim();jp=p.slice(1).join('|').trim();}
+      else{const m=t.search(CJK);if(m>0){en=t.slice(0,m).trim();jp=t.slice(m).trim();}}
+      if(!en&&!jp)return;
+      /* previous point-label cue runs until this one starts */
+      if(cues.length&&cues[cues.length-1].end<=cues[cues.length-1].start)cues[cues.length-1].end=e.start;
+      cues.push({start:e.start,end:e.end>e.start?e.end:e.start,en,jp,black});
+    });
+    /* last cue with no end: give it a generous default */
+    if(cues.length&&cues[cues.length-1].end<=cues[cues.length-1].start)cues[cues.length-1].end=cues[cues.length-1].start+6;
+    return cues;
+  }
+
+  (typeof fetch!=='undefined'?fetch('assets/theme_lyrics.txt'):Promise.reject())
+    .then(r=>r.ok?r.text():Promise.reject())
+    .then(txt=>{
+      const cues=parseLabels(txt);
+      if(!cues.length)return;
+      const wrap=document.getElementById('video-wrap');
+      const subs=document.getElementById('video-subs');
+      const subsEn=document.getElementById('subs-en');
+      const subsJp=document.getElementById('subs-jp');
+
+      /* subtitle size follows the actual rendered video width */
+      const sizeSet=()=>subs.style.setProperty('--vidw',wrap.clientWidth+'px');
+      if(window.ResizeObserver)new ResizeObserver(sizeSet).observe(wrap);
+      window.addEventListener('resize',sizeSet);sizeSet();
+
+      /* ── overlay renderer ── */
+      let active=-1;
+      function paint(){
+        const t=video.currentTime;
+        let idx=-1;
+        for(let i=0;i<cues.length;i++){
+          if(t>=cues[i].start&&t<cues[i].end){idx=i;break;}
+          if(cues[i].start>t)break;
+        }
+        if(idx===active)return;
+        active=idx;
+        if(idx<0){subs.classList.remove('show');return;} /* CSS fades it out */
+        const c=cues[idx];
+        subsEn.textContent=c.en;
+        subsJp.textContent=c.jp;
+        subsJp.style.display=c.jp?'':'none';
+        subs.classList.toggle('plain',c.black);
+        subs.classList.add('show');
+        paintList(idx);
+      }
+      video.addEventListener('timeupdate',paint);
+      video.addEventListener('seeked',paint);
+
+      /* ── collapsible practice list: tap a line to jump there ── */
+      const toggle=document.getElementById('lyrics-toggle');
+      const panel=document.getElementById('lyrics-panel');
+      const scroll=document.getElementById('lyrics-scroll');
+      const els=cues.map(c=>{
+        const b=document.createElement('button');b.type='button';b.className='lyric-line';
+        b.innerHTML=c.jp?`${c.en}<span class="jp">${c.jp}</span>`:c.en;
+        b.addEventListener('click',()=>{video.currentTime=c.start+0.01;video.play();});
+        scroll.appendChild(b);return b;
+      });
+      function paintList(idx){
+        els.forEach((el,i)=>el.classList.toggle('active',i===idx));
+        if(idx>-1&&!panel.hidden&&scroll.scrollTo)
+          scroll.scrollTo({top:els[idx].offsetTop-scroll.clientHeight/2+els[idx].clientHeight/2,behavior:'smooth'});
+      }
+      toggle.hidden=false;
+      toggle.addEventListener('click',()=>{
+        panel.hidden=!panel.hidden;
+        toggle.innerHTML=panel.hidden?'🎤 かしリストを ひらく · Lyrics list ▾':'🎤 かしリストを とじる · Close ▴';
+      });
+    })
+    .catch(()=>{}); /* no lyrics file yet — overlay and list simply stay off */
 })();
 </script>
 <script>
