@@ -11,7 +11,7 @@
  * To force-refresh everyone's cache after a big update, bump the version below.
  */
 
-const VERSION = 'hp-v1';
+const VERSION = 'hp-v2';  /* bumped: purges stale caches on every device */
 const CACHE = `heros-proof-${VERSION}`;
 
 // The hub shell, cached immediately on install.
@@ -48,6 +48,15 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
+
+  // Media & ranged requests: step aside and let the browser stream directly.
+  // Range requests through a SW break <video>/<audio> in several browsers,
+  // and the Cache API ignores Range headers — answering a partial request
+  // with a full response makes the media element error out.
+  if (req.headers.get('range') ||
+      /\.(mp4|webm|m4v|mov|m4a|mp3|ogg|oga|wav)(\?|$)/i.test(url.pathname)) {
+    return;
+  }
 
   // Pages: network-first with offline fallback
   if (req.mode === 'navigate') {
