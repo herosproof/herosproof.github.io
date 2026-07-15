@@ -1,0 +1,16 @@
+23.589592	23.589592	Are you ready? Here we go! 準備はいい？さあ行こう！
+26.503862	26.503862	Welcome to the magic show! 魔法のショーへようこそ！
+29.631371	29.631371	We can jump, we can fight, ジャンプできる、戦える、
+31.092948	31.092948	Let's go! Our time is now, alright! レッツゴー！今だよ、さあ！
+35.060087	35.060087	Where are you from? Who are you? どこから来た？君は誰？
+38.160941	38.160941	I'm a hero, just like you! 僕もヒーロー、君と同じ！
+41.132324	41.132324	Four crystals hiding, far and wide, 四つの水晶、隠れてる、
+44.069445	44.069445	We can do it! We can try! できるよ！挑戦しよう！
+47.144793	47.144793	What's your treasure? What's your dream? 君の宝は？夢は何？
+50.028082	50.028082	Together we're the perfect team! 一緒なら最高のチーム！
+56.357357	56.357357	Hero's Proof! We can do it! ヒーローズ・プルーフ(勇者の証)！できるよ！
+59.769185	59.769185	Together we'll get through it! 一緒に乗り越えよう！
+62.185896	62.185896	Magic, friends, and courage too, 魔法、友達、勇気もね、
+66.557301	66.557301	This is our adventure! これが私たちの冒険！
+69.951359	69.951359	Let's go! Let's go!  行こう！行こう！ (black text color)
+72.776779	72.776779	text fade out
