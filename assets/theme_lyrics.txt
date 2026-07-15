@@ -13,4 +13,4 @@
 62.005896	62.005896	Magic, friends, and courage too, 魔法、友達、勇気もね、
 66.557301	66.557301	This is our adventure! これが私たちの冒険！
 69.151359	69.151359	Let's go! Let's go!  行こう！行こう！ (black text color)
-72.076779	72.076779	text fade out
+71.876779	71.876779	text fade out
