@@ -10,7 +10,7 @@
 50.028082	50.028082	Together we're the perfect team! 一緒なら最高のチーム！
 56.357357	56.357357	Hero's Proof! We can do it! ヒーローズ・プルーフ(勇者の証)！できるよ！
 59.769185	59.769185	Together we'll get through it! 一緒に乗り越えよう！
-62.185896	62.185896	Magic, friends, and courage too, 魔法、友達、勇気もね、
+62.005896	62.005896	Magic, friends, and courage too, 魔法、友達、勇気もね、
 66.557301	66.557301	This is our adventure! これが私たちの冒険！
-69.951359	69.951359	Let's go! Let's go!  行こう！行こう！ (black text color)
-72.776779	72.776779	text fade out
+69.151359	69.151359	Let's go! Let's go!  行こう！行こう！ (black text color)
+72.076779	72.076779	text fade out
