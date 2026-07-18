@@ -160,6 +160,11 @@ button{font-family:inherit;cursor:pointer;}
 }
 .vn-bg.show{opacity:1;}
 .vn-bg.zoom{animation:kenburns 26s ease-out forwards;}
+/* temporary reveal overlay (picture-book moment) — same crossfade as the bg,
+   but layered OVER Lumi. Sits before the counter/controls in the DOM, so
+   dialogue and buttons still paint on top of it. */
+.vn-bgswap-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s ease;pointer-events:none;}
+.vn-bgswap-overlay.show{opacity:1;}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.1)}}
 /* ambient glow when no bg image */
 .vn-stage::before{
@@ -178,8 +183,8 @@ button{font-family:inherit;cursor:pointer;}
   pointer-events:none;
 }
 .vn-fig.centered,.vn-fig.fullbody{left:50%;}
-.vn-fig.fullbody{height:clamp(240px,64%,540px);bottom:calc(3.5% + 128px);}
-.vn-stage.big .vn-fig.fullbody{bottom:calc(3.5% + 150px);}
+.vn-fig.fullbody{height:clamp(240px,64%,540px);bottom:calc(3.5% + 104px);}
+.vn-stage.big .vn-fig.fullbody{bottom:calc(3.5% + 126px);}
 .vn-fig-corner{left:84%;height:clamp(120px,30%,260px);}
 /* the portrait image itself */
 .vn-fig-img{
@@ -191,6 +196,20 @@ button{font-family:inherit;cursor:pointer;}
 }
 .vn-fig.fullbody .vn-fig-img{max-width:82vw;}
 .vn-fig-corner .vn-fig-img{max-width:34vw;}
+/* ── portrait size boost: fullscreen + desktop ONLY ──
+   The regular mobile viewer keeps the original sizing (it looks best as-is).
+   Two scopes: (a) wide viewports in the normal viewer, (b) .big = fullscreen
+   or theater fallback, both orientations. .big rules out-specify the media
+   block, so desktop-fullscreen gets the .big sizing. */
+@media(min-width:820px){
+  .vn-fig{height:clamp(170px,54%,460px);}
+  .vn-fig.fullbody{height:clamp(260px,72%,620px);}
+  .vn-fig-corner{height:clamp(130px,34%,300px);}
+}
+.vn-stage.big .vn-fig{height:clamp(200px,56%,720px);}
+.vn-stage.big .vn-fig.fullbody{height:clamp(280px,74%,880px);}
+.vn-stage.big .vn-fig-img{max-width:64vw;}
+.vn-stage.big .vn-fig-corner{height:clamp(140px,36%,340px);}
 .vn-fig-img.show{opacity:var(--op);}
 .vn-fig-img.apparition{--op:.5;}
 /* white glow layer, sized to the wrapper, sitting BEHIND the portrait.
@@ -727,6 +746,7 @@ footer{
         <img class="vn-fig-img" id="vn-portrait-corner" alt="" aria-hidden="true">
       </div>
       <span class="vn-portrait-fallback" id="vn-portrait-fallback">💜</span>
+      <img class="vn-bgswap-overlay" id="vn-bgswap" alt="" aria-hidden="true">
 
       <span class="vn-counter" id="vn-counter"></span>
       <div class="vn-controls">
@@ -872,7 +892,7 @@ footer{
 
   <!-- ══════════════════════════ STORY, CHARACTERS & MUSIC ══════════════════════════ -->
   <section class="portals-section" aria-label="Hero School: classroom, library, characters, and music">
-    <h2 class="section-heading">🏫 Hero School<span class="jp">ヒーロー学校(がっこう)・まなびのエリア</span></h2>
+    <h2 class="section-heading">🏫 Hero School<span class="jp">ヒーロー<ruby>学校<rt>がっこう</rt></ruby>・まなびのエリア</span></h2>
 
     <div class="portal-grid">
 
@@ -1077,7 +1097,7 @@ footer{
       <!-- Comment Corner (message wall + private message) -->
       <a href="https://herosproof.github.io/message" class="portal portal-message">
         <span class="portal-icon">💌</span>
-        <p class="portal-tag"><span class="jp">· ラリマーリへ</span></p>
+        <p class="portal-tag">Message<span class="jp">· ラリマーリへ</span></p>
         <p class="portal-title">Comment Corner
           <span class="jp">コメントコーナー</span>
         </p>
@@ -1160,6 +1180,21 @@ footer{
 </div><!-- /page -->
 
 <script>
+/* iPad/remote debugging: add ?debug=1 to the URL to see errors on screen */
+if(location.search.indexOf('debug')>-1){(function(){
+  var box=null;
+  function show(msg){
+    if(!box){box=document.createElement('pre');
+      box.style.cssText='position:fixed;left:8px;right:8px;bottom:8px;max-height:45%;overflow:auto;background:#7a1f1f;color:#fff;font:12px/1.5 monospace;padding:10px 12px;border-radius:10px;z-index:99999;white-space:pre-wrap;margin:0;';
+      (document.body||document.documentElement).appendChild(box);}
+    box.textContent+=msg+'\n';}
+  window.addEventListener('error',function(e){
+    show('❌ '+(e.message||'error')+(e.filename?'\n   @ line '+e.lineno:'')); },true);
+  window.addEventListener('unhandledrejection',function(e){
+    show('❌ promise: '+(e.reason&&e.reason.message?e.reason.message:e.reason)); });
+  window.addEventListener('load',function(){ if(!box)show('✅ loaded with no errors — UA: '+navigator.userAgent.slice(0,80)); });
+})();}
+
 /* ─────────────────────────────────────────────
    Starfield
 ───────────────────────────────────────────── */
@@ -1190,10 +1225,10 @@ footer{
    assets/intro/voice/jp/   Japanese voice, one mp3 per line
    assets/intro/sfx/        short sound effects (see SFX list below)
 
-   bgSwap: scene 4 starts on its normal background, then after a
-   delay crossfades to lltw_reveal.jpg (Lumi's picture-book moment).
-   It reverts automatically once you advance, because the next scene
-   sets its own bg — no manual reset needed.
+   bgSwap: scene 4 starts normally, then after a delay crossfades
+   lltw_reveal.jpg in OVER Lumi (a dedicated overlay layer above the
+   portraits, below the dialogue/UI). It clears automatically on every
+   advance/return — the background layer itself is never touched.
 
    SOUND EFFECTS — every sfx call fails silently if the file is
    missing, so the intro plays fine with or without them. Filenames
@@ -1277,7 +1312,7 @@ const VN_SCENES=[
 (function(){
   const $=id=>document.getElementById(id);
   const stage=$('vn-stage'),overlay=$('vn-overlay'),endPanel=$('vn-end');
-  const bgEl=$('vn-bg'),fallbackEl=$('vn-portrait-fallback');
+  const bgEl=$('vn-bg'),fallbackEl=$('vn-portrait-fallback'),bgSwapEl=$('vn-bgswap');
   const wrapEl=$('vn-portrait-wrap'),portraitEl=$('vn-portrait'),glowEl=$('vn-portrait-glow');
   const cornerWrapEl=$('vn-portrait-corner-wrap'),cornerEl=$('vn-portrait-corner'),cornerGlowEl=$('vn-portrait-corner-glow');
   const centerWrap=$('vn-center'),centerImg=$('vn-center-img');
@@ -1419,7 +1454,7 @@ const VN_SCENES=[
       wrapEl.style.bottom='';
     }else{
       const fb=wrapEl.classList.contains('fullbody');
-      const offset=fb?18:-18;                            // fb: feet above box · bust: small tuck (nudged higher)
+      const offset=fb?-6:-18;                            // fb: -6 = nudged 24px lower (feet tuck just behind the box) · bust: small tuck
       wrapEl.style.bottom=Math.max(8,boxTopFromBottom+offset)+'px';
     }
     /* corner portrait wrapper (troubled bust during the full-body reveal) */
@@ -1465,14 +1500,15 @@ const VN_SCENES=[
     cornerEl.classList.toggle('apparition',!!cp);
     setImage(cornerEl,cp);
     setImage(cornerGlowEl,cp);
-    /* temporary background swap (e.g. Lumi's picture-book reveal) —
-       after a short delay, crossfade the bg to a new image. It reverts
-       naturally because the next scene sets its own bg when you advance,
-       and re-renders fresh (back to step.bg) if you return to this scene. */
+    /* temporary reveal overlay (e.g. Lumi's picture-book reveal) —
+       after a short delay, crossfade an image in ON TOP of Lumi via the
+       dedicated overlay layer. Every render clears it, so it disappears
+       the moment you advance (or return) — the bg itself is untouched. */
     clearTimeout(bgSwapTimer);
+    bgSwapEl.classList.remove('show');
     if(step.bgSwap){
       bgSwapTimer=setTimeout(()=>{
-        setImage(bgEl,VN_PATH+'bg/'+step.bgSwap.img);
+        setImage(bgSwapEl,VN_PATH+'bg/'+step.bgSwap.img);
         if(step.bgSwap.sfx)playSfx(step.bgSwap.sfx,0.5);
       },step.bgSwap.delay||1000);
     }
