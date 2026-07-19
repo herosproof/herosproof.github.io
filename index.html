@@ -1667,19 +1667,12 @@ const VN_SCENES=[
   function toggleFS(){
     if(document.fullscreenElement===stage){document.exitFullscreen().catch(()=>{});}
     else if(stage.classList.contains('theater')){theaterOff();}
-    else if(stage.requestFullscreen){
-      stage.requestFullscreen().then(()=>{
-        if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(()=>{});
-      }).catch(theaterOn);
-    }
+    else if(stage.requestFullscreen){stage.requestFullscreen().catch(theaterOn);}
     else theaterOn();
   }
   $('vn-fs').addEventListener('click',e=>{e.stopPropagation();toggleFS();});
   document.addEventListener('fullscreenchange',()=>{
     stage.classList.toggle('big',document.fullscreenElement===stage||stage.classList.contains('theater'));
-    if(!document.fullscreenElement&&screen.orientation&&screen.orientation.unlock){
-      try{screen.orientation.unlock();}catch(e){}
-    }
     setTimeout(positionPortrait,60);
   });
   /* keep the portrait pinned when the viewport changes (rotate/resize) */
