@@ -163,7 +163,9 @@ button{font-family:inherit;cursor:pointer;}
 /* temporary reveal overlay (picture-book moment) — same crossfade as the bg,
    but layered OVER Lumi. Sits before the counter/controls in the DOM, so
    dialogue and buttons still paint on top of it. */
-.vn-bgswap-overlay{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);max-width:78%;max-height:68%;width:auto;height:auto;object-fit:contain;opacity:0;transition:opacity .55s ease;pointer-events:none;filter:drop-shadow(0 14px 34px rgba(0,0,0,.5));border-radius:6px;}
+/* the reveal asset is JUST the book cover now → float it centered over the
+   scene, slightly small so the whole cover is always visible */
+.vn-bgswap-overlay{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);max-width:56%;max-height:62%;width:auto;height:auto;object-fit:contain;opacity:0;transition:opacity .55s ease;pointer-events:none;filter:drop-shadow(0 16px 36px rgba(0,0,0,.55));border-radius:8px;}
 .vn-bgswap-overlay.show{opacity:1;}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.1)}}
 /* ambient glow when no bg image */
@@ -209,6 +211,11 @@ button{font-family:inherit;cursor:pointer;}
 .vn-stage.big .vn-fig{height:clamp(200px,56%,720px);}
 .vn-stage.big .vn-fig.fullbody{height:clamp(280px,74%,880px);}
 .vn-stage.big .vn-fig-img{max-width:64vw;}
+@media (orientation:portrait){
+  .vn-stage.big .vn-fig-img{max-width:92vw;}
+  .vn-stage.big .vn-fig.fullbody{height:clamp(300px,80%,1100px);}
+  .vn-stage.big .vn-fig{height:clamp(220px,60%,900px);}
+}
 .vn-stage.big .vn-fig-corner{height:clamp(140px,36%,340px);}
 .vn-fig-img.show{opacity:var(--op);}
 .vn-fig-img.apparition{--op:.5;}
@@ -492,6 +499,19 @@ button{font-family:inherit;cursor:pointer;}
 /* ── synced subtitle overlay (on the video) ──
    JP small in pale yellow on top · EN large in white below · thin grey outline.
    .plain = black text, no outline (for the white-screen finale). */
+.mv-fs-btn{
+  position:absolute;top:10px;right:10px;z-index:6;
+  background:rgba(21,13,40,.72);color:#f0e6ff;
+  border:1px solid rgba(201,160,48,.45);border-radius:10px;
+  width:40px;height:40px;font-size:1.15rem;line-height:1;cursor:pointer;
+}
+.mv-fs-btn:active{background:rgba(144,96,192,.4);}
+.video-frame-wrap:fullscreen{border-radius:0;background:#000;display:flex;align-items:center;justify-content:center;}
+.video-frame-wrap:fullscreen .theme-video{width:100%;height:100%;aspect-ratio:auto;object-fit:contain;}
+.video-frame-wrap:fullscreen .video-subs{bottom:11%;}
+.video-frame-wrap:-webkit-full-screen{border-radius:0;background:#000;}
+.video-frame-wrap:-webkit-full-screen .theme-video{width:100%;height:100%;object-fit:contain;}
+.video-frame-wrap:-webkit-full-screen .video-subs{bottom:11%;}
 .video-subs{position:absolute;left:4%;right:4%;bottom:6.5%;z-index:4;text-align:center;pointer-events:none;opacity:0;transition:opacity .55s ease;}
 .video-subs.show{opacity:1;}
 .subs-jp{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;font-weight:700;color:#ffe9a3;font-size:calc(var(--vidw,640px)*.027);line-height:1.6;letter-spacing:.1em;
@@ -845,11 +865,12 @@ footer{
 
     <div class="video-frame-wrap" id="video-wrap">
       <!-- synced subtitle overlay (filled from assets/theme_lyrics.txt) -->
+      <button class="mv-fs-btn" id="mv-fs" aria-label="Fullscreen with lyrics">⛶</button>
       <div class="video-subs" id="video-subs" aria-hidden="true">
         <div class="subs-jp" id="subs-jp"></div>
         <div class="subs-en" id="subs-en"></div>
       </div>
-      <video class="theme-video" id="theme-video" controls playsinline preload="metadata"
+      <video class="theme-video" id="theme-video" controls controlsList="nofullscreen" playsinline preload="metadata"
              poster="assets/mv_poster.jpg">
         <source src="assets/herosproof_mv.mp4" type="video/mp4" id="mv-source">
         <track kind="subtitles" src="assets/herosproof_mv.vtt" srclang="en" label="English" default>
@@ -899,7 +920,7 @@ footer{
     <div class="portal-grid">
 
       <!-- Classroom -->
-      <a href="https://herosproof.github.io/classroom" class="portal portal-classroom">
+      <a href="https://herosproof.com/classroom" class="portal portal-classroom">
         <span class="portal-icon">🏫</span>
         <p class="portal-tag">Study &amp; Print<span class="jp">· べんきょう</span></p>
         <p class="portal-title">Classroom
@@ -917,7 +938,7 @@ footer{
       </a>
 
       <!-- Library -->
-      <a href="https://herosproof.github.io/library" class="portal portal-library">
+      <a href="https://herosproof.com/library" class="portal portal-library">
         <span class="portal-icon">📚</span>
         <p class="portal-tag">Read &amp; Listen<span class="jp">· 図書室</span></p>
         <p class="portal-title">Library
@@ -935,7 +956,7 @@ footer{
       </a>
 
       <!-- Characters -->
-      <a href="https://herosproof.github.io/characters" class="portal portal-characters">
+      <a href="https://herosproof.com/characters" class="portal portal-characters">
         <span class="portal-icon">🎭</span>
         <p class="portal-tag">Cast<span class="jp">· キャラクター</span></p>
         <p class="portal-title">Characters
@@ -953,7 +974,7 @@ footer{
       </a>
 
       <!-- Music Room -->
-      <a href="https://herosproof.github.io/music" class="portal portal-music">
+      <a href="https://herosproof.com/music" class="portal portal-music">
         <span class="portal-icon">🎵</span>
         <p class="portal-tag">Listen<span class="jp">· 音楽</span></p>
         <p class="portal-title">Music Room
@@ -980,7 +1001,7 @@ footer{
     <div class="portal-grid">
 
       <!-- Word Quest -->
-      <a href="https://herosproof.github.io/word-quest" class="portal portal-word">
+      <a href="https://herosproof.com/word-quest" class="portal portal-word">
         <span class="portal-icon">⚔️</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
         <p class="portal-title">Word Quest
@@ -998,7 +1019,7 @@ footer{
       </a>
 
       <!-- Speaking Quest -->
-      <a href="https://herosproof.github.io/speaking-quest" class="portal portal-speaking">
+      <a href="https://herosproof.com/speaking-quest" class="portal portal-speaking">
         <span class="portal-icon">🎤</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
         <p class="portal-title">Speaking Quest
@@ -1016,7 +1037,7 @@ footer{
       </a>
 
       <!-- Typing Quest -->
-      <a href="https://herosproof.github.io/typing-quest" class="portal portal-typing">
+      <a href="https://herosproof.com/typing-quest" class="portal portal-typing">
         <span class="portal-icon">⌨️</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
         <p class="portal-title">Typing Quest
@@ -1034,7 +1055,7 @@ footer{
       </a>
 
       <!-- Writing Quest -->
-      <a href="https://herosproof.github.io/writing-quest" class="portal portal-writing">
+      <a href="https://herosproof.com/writing-quest" class="portal portal-writing">
         <span class="portal-icon">✏️</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
         <p class="portal-title">Writing Quest
@@ -1052,7 +1073,7 @@ footer{
       </a>
 
       <!-- Beat Challenge -->
-      <a href="https://herosproof.github.io/beat-challenge" class="portal portal-beat">
+      <a href="https://herosproof.com/beat-challenge" class="portal portal-beat">
         <span class="portal-icon">🥁</span>
         <p class="portal-tag">Game<span class="jp">· ゲーム</span></p>
         <p class="portal-title">Beat Challenge
@@ -1091,13 +1112,13 @@ footer{
   </section>
 
   <!-- ══════════════════════════ CLASSROOM & MORE ══════════════════════════ -->
-  <section class="portals-section" aria-label="Classroom tools and more">
-    <h2 class="section-heading">🎓 Classroom &amp; More<span class="jp">クラス・その他</span></h2>
+  <section class="portals-section" aria-label="Extras — messages, sugoroku, and info">
+    <h2 class="section-heading">✨ Extras<span class="jp">その他</span></h2>
 
     <div class="portal-grid">
 
       <!-- Comment Corner (message wall + private message) -->
-      <a href="https://herosproof.github.io/message" class="portal portal-message">
+      <a href="https://herosproof.com/message" class="portal portal-message">
         <span class="portal-icon">💌</span>
         <p class="portal-tag">Message<span class="jp">· ラリマーリへ</span></p>
         <p class="portal-title">Comment Corner
@@ -1115,9 +1136,9 @@ footer{
       </a>
 
       <!-- Sugoroku -->
-      <a href="https://herosproof.github.io/sugoroku" class="portal portal-sugoroku">
+      <a href="https://herosproof.com/sugoroku" class="portal portal-sugoroku">
         <span class="portal-icon">🎲</span>
-        <p class="portal-tag">Class Tool<span class="jp">· クラスで</span></p>
+        <p class="portal-tag">Board Game<span class="jp">・ボードゲーム</span></p>
         <p class="portal-title">Sugoroku Companion
           <span class="jp">すごろくアプリ</span>
         </p>
@@ -1134,7 +1155,7 @@ footer{
 
       <!-- Parents & Teachers — temporarily hidden, remove
            "portal-hidden" below to bring it back -->
-      <a href="https://herosproof.github.io/parents" class="portal portal-parents portal-hidden">
+      <a href="https://herosproof.com/parents" class="portal portal-parents portal-hidden">
         <span class="portal-icon">🎓</span>
         <p class="portal-tag">For Adults<span class="jp">· おとなの方へ</span></p>
         <p class="portal-title">For Parents &amp; Teachers
@@ -1153,7 +1174,7 @@ footer{
 
       <!-- Credits — temporarily hidden, remove
            "portal-hidden" below to bring it back -->
-      <a href="https://herosproof.github.io/credits" class="portal portal-credits portal-hidden">
+      <a href="https://herosproof.com/credits" class="portal portal-credits portal-hidden">
         <span class="portal-icon">⭐</span>
         <p class="portal-tag">Info<span class="jp">· クレジット</span></p>
         <p class="portal-title">Credits
@@ -1646,12 +1667,19 @@ const VN_SCENES=[
   function toggleFS(){
     if(document.fullscreenElement===stage){document.exitFullscreen().catch(()=>{});}
     else if(stage.classList.contains('theater')){theaterOff();}
-    else if(stage.requestFullscreen){stage.requestFullscreen().catch(theaterOn);}
+    else if(stage.requestFullscreen){
+      stage.requestFullscreen().then(()=>{
+        if(screen.orientation&&screen.orientation.lock)screen.orientation.lock('landscape').catch(()=>{});
+      }).catch(theaterOn);
+    }
     else theaterOn();
   }
   $('vn-fs').addEventListener('click',e=>{e.stopPropagation();toggleFS();});
   document.addEventListener('fullscreenchange',()=>{
     stage.classList.toggle('big',document.fullscreenElement===stage||stage.classList.contains('theater'));
+    if(!document.fullscreenElement&&screen.orientation&&screen.orientation.unlock){
+      try{screen.orientation.unlock();}catch(e){}
+    }
     setTimeout(positionPortrait,60);
   });
   /* keep the portrait pinned when the viewport changes (rotate/resize) */
@@ -1895,6 +1923,23 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+/* ── MV wrapper fullscreen: lyrics stay visible ── */
+(function(){
+  var wrap=document.getElementById('video-wrap'),btn=document.getElementById('mv-fs');
+  if(!wrap||!btn)return;
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var fs=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fs){
+      if(document.exitFullscreen)document.exitFullscreen().catch(function(){});
+      else if(document.webkitExitFullscreen)document.webkitExitFullscreen();
+    }else{
+      if(wrap.requestFullscreen)wrap.requestFullscreen().catch(function(){});
+      else if(wrap.webkitRequestFullscreen)wrap.webkitRequestFullscreen();
+    }
+  });
+})();
 </script>
 </body>
 </html>
