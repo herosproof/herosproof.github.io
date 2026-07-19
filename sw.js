@@ -11,7 +11,7 @@
  * To force-refresh everyone's cache after a big update, bump the version below.
  */
 
-const VERSION = 'hp-v2';  /* bumped: purges stale caches on every device */
+const VERSION = 'hp-v2-rot';  /* bumped: purges stale caches on every device */
 const CACHE = `heros-proof-${VERSION}`;
 
 // The hub shell, cached immediately on install.
