@@ -163,7 +163,7 @@ button{font-family:inherit;cursor:pointer;}
 /* temporary reveal overlay (picture-book moment) — same crossfade as the bg,
    but layered OVER Lumi. Sits before the counter/controls in the DOM, so
    dialogue and buttons still paint on top of it. */
-.vn-bgswap-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s ease;pointer-events:none;}
+.vn-bgswap-overlay{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);max-width:78%;max-height:68%;width:auto;height:auto;object-fit:contain;opacity:0;transition:opacity .55s ease;pointer-events:none;filter:drop-shadow(0 14px 34px rgba(0,0,0,.5));border-radius:6px;}
 .vn-bgswap-overlay.show{opacity:1;}
 @keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.1)}}
 /* ambient glow when no bg image */
@@ -812,7 +812,8 @@ footer{
         <div class="vn-overlay-title">Your quest begins!<br>冒険のはじまり！</div>
         <div class="vn-end-actions">
           <button class="vn-btn" id="vn-replay">↺ Replay · もう一度</button>
-          <button class="vn-btn on" id="vn-go-portals">🗺️ Enter Story Mode · ストーリーモードへ</button>
+          <button class="vn-btn on" id="vn-go-theme">🎵 Theme Song · テーマソングへ</button>
+          <button class="vn-btn" id="vn-go-portals">🗺️ Enter Story Mode · ストーリーモードへ</button>
         </div>
       </div>
 
@@ -836,21 +837,6 @@ footer{
       </span>
       <span class="play">▶ Replay<br>もう一度</span>
     </button>
-  </section>
-
-  <!-- ══════════════════ STORY MODE (main attraction — right under the intro) ══════════════════ -->
-  <section class="storymode-section" aria-label="Story Mode curriculum">
-    <a href="https://herosproof.github.io/story-mode" class="storymode-banner">
-      <div class="storymode-inner">
-        <img class="storymode-icon-img" src="assets/brokenworld.png" alt="" onerror="this.style.display='none'">
-        <div class="storymode-txt">
-          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード・ルミと いっしょに英語を学ぼう！</span></p>
-          <p class="storymode-desc">Learn English stage by stage — story, key spells, vocabulary, quests, and boss battles!<br>
-          ①物語 → ②<ruby>呪文解析<rt>じゅもんかいせき</rt></ruby> → ③アイテム図鑑 → ④クエスト → ⑤ボス戦！</p>
-        </div>
-        <span class="storymode-cta">↗</span>
-      </div>
-    </a>
   </section>
 
   <!-- ══════════════════════════ MUSIC VIDEO ══════════════════════════ -->
@@ -889,6 +875,22 @@ footer{
     </div>
 
   </section>
+
+  <!-- ══════════════════ STORY MODE (the story continues — right after the OP) ══════════════════ -->
+  <section class="storymode-section" aria-label="Story Mode curriculum">
+    <a href="https://herosproof.com/story-mode" class="storymode-banner">
+      <div class="storymode-inner">
+        <img class="storymode-icon-img" src="assets/brokenworld.png" alt="" onerror="this.style.display='none'">
+        <div class="storymode-txt">
+          <p class="storymode-title">STORY MODE<span class="jp">ストーリーモード・ルミと いっしょに英語を学ぼう！</span></p>
+          <p class="storymode-desc">Learn English stage by stage — story, key spells, vocabulary, quests, and boss battles!<br>
+          ①物語 → ②<ruby>呪文解析<rt>じゅもんかいせき</rt></ruby> → ③アイテム図鑑 → ④クエスト → ⑤ボス戦！</p>
+        </div>
+        <span class="storymode-cta">↗</span>
+      </div>
+    </a>
+  </section>
+
 
   <!-- ══════════════════════════ STORY, CHARACTERS & MUSIC ══════════════════════════ -->
   <section class="portals-section" aria-label="Hero School: classroom, library, characters, and music">
@@ -1666,7 +1668,19 @@ const VN_SCENES=[
   $('vn-go-portals').addEventListener('click',()=>{
     if(document.fullscreenElement===stage)document.exitFullscreen().catch(()=>{});
     theaterOff();
-    window.location.href='https://herosproof.github.io/story-mode';
+    window.location.href='https://herosproof.com/story-mode';
+  });
+  /* anime flow: intro → straight into the OP (theme song) */
+  $('vn-go-theme').addEventListener('click',()=>{
+    theaterOff();
+    const go=()=>{
+      const el=document.querySelector('.music-video-section');
+      if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+    const fsEl=document.fullscreenElement||document.webkitFullscreenElement;
+    if(fsEl&&document.exitFullscreen){document.exitFullscreen().then(()=>setTimeout(go,300)).catch(go);}
+    else if(fsEl&&document.webkitExitFullscreen){document.webkitExitFullscreen();setTimeout(go,300);}
+    else go();
   });
 
   /* ── settings: voice & text language, volume, speed ── */
